@@ -1,2 +1,2 @@
 # vsaddins
-Visual Studio Add-in Projects
+Custom Visual Studio add-in projects that I've found invaluable in my personal development.
