@@ -58,9 +58,16 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="MakeBddNameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source.extension.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
+    </Compile>
+    <Compile Include="VsCommands.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VsCommands.vsct</DependentUpon>
     </Compile>
     <Compile Include="VsPackage.cs" />
   </ItemGroup>
@@ -74,8 +81,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="Resources\MakeBddNameCommand.png" />
     <Content Include="Resources\VsPackage.ico" />
     <Content Include="stylesheet.css" />
+    <VSCTCompile Include="VsCommands.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>VsCommands.cs</LastGenOutput>
+    </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="source.extension.resx">

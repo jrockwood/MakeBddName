@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+  <Include href="KnownImageIds.vsct" />
+
+  <Commands package="guidPackage">
+    <Buttons>
+      <Button guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_FOLDER_EXPLORE" />
+        <Icon guid="ImageCatalogGuid" id="ConvertToCodeWebTest" />
+        <CommandFlag>IconAndText</CommandFlag>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Make BDD Name</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <CommandPlacements>
+    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidPackage" value="{c6f71eb1-1c7f-4158-877b-7d4b8e6dc5cc}" />
+
+    <GuidSymbol name="guidMakeBddNameCmdSet" value="{939ce9d0-7724-4468-95c8-d073c7d5ea9e}">
+      <IDSymbol name="MakeBddName" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
