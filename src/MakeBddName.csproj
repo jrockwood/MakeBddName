@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="Resources\MakeBddNameCommand.png" />
     <Content Include="Resources\VsPackage.ico" />
     <Content Include="stylesheet.css" />
     <VSCTCompile Include="VsCommands.vsct">
