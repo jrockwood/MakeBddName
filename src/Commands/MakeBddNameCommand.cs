@@ -13,24 +13,36 @@ namespace MakeBddName.Commands
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
+    /// <summary>
+    /// Represents the "Make BDD Name" menu command.
+    /// </summary>
     internal sealed class MakeBddNameCommand
     {
+        //// ===========================================================================================================
+        //// Member Variables
+        //// ===========================================================================================================
+
         private readonly Package _package;
+
+        //// ===========================================================================================================
+        //// Constructors
+        //// ===========================================================================================================
 
         private MakeBddNameCommand(Package package)
         {
-            if (package == null) { throw new ArgumentNullException(nameof(package)); }
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
 
             _package = package;
 
-            var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
-            {
-                var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
-                var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
-                commandService.AddCommand(menuItem);
-            }
+            RegisterCommand();
         }
+
+        //// ===========================================================================================================
+        //// Properties
+        //// ===========================================================================================================
 
         /// <summary>
         /// Gets the instance of the command.
@@ -42,6 +54,10 @@ namespace MakeBddName.Commands
         /// </summary>
         private IServiceProvider ServiceProvider => _package;
 
+        //// ===========================================================================================================
+        //// Methods
+        //// ===========================================================================================================
+
         /// <summary>
         /// Initializes the singleton instance of the command.
         /// </summary>
@@ -49,6 +65,17 @@ namespace MakeBddName.Commands
         public static void Initialize(Package package)
         {
             Instance = new MakeBddNameCommand(package);
+        }
+
+        private void RegisterCommand()
+        {
+            var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (commandService != null)
+            {
+                var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
+                var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
+                commandService.AddCommand(menuItem);
+            }
         }
 
         private void OnMakeBddNameCommandClick(object sender, EventArgs e)
