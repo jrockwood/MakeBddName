@@ -10,6 +10,7 @@ namespace MakeBddName
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
+    using MakeBddName.Commands;
     using MakeBddName.Helpers;
     using Microsoft.VisualStudio.Shell;
 

@@ -6,7 +6,7 @@
 // <created>2016-09-16</created>
 // ---------------------------------------------------------------------------------------------------------------------
 
-namespace MakeBddName
+namespace MakeBddName.Commands
 {
     using System;
     using System.ComponentModel.Design;

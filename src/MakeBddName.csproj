@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\Logger.cs" />
-    <Compile Include="MakeBddNameCommand.cs" />
+    <Compile Include="Commands\MakeBddNameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source.extension.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
