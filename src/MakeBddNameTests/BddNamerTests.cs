@@ -6,11 +6,11 @@
 // <created>2016-09-17</created>
 // ---------------------------------------------------------------------------------------------------------------------
 
-namespace MakeBddNameTests.Commands
+namespace MakeBddNameTests
 {
     using System;
     using FluentAssertions;
-    using MakeBddName.Commands;
+    using MakeBddName;
     using NUnit.Framework;
 
     public static class BddNamerTests

@@ -92,7 +92,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Commands\BddNamerTests.cs" />
+    <Compile Include="BddNamerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

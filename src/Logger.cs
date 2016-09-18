@@ -6,7 +6,7 @@
 // <created>2016-09-16</created>
 // ---------------------------------------------------------------------------------------------------------------------
 
-namespace MakeBddName.Helpers
+namespace MakeBddName
 {
     using System;
     using System.Diagnostics;
