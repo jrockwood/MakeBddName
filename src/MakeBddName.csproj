@@ -78,9 +78,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.html" />
     <Content Include="Resources\VsPackage.ico" />
-    <Content Include="stylesheet.css" />
     <VSCTCompile Include="VsCommands.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <Generator>VsctGenerator</Generator>
