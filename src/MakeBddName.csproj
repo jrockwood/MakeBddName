@@ -55,6 +55,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\BddNamer.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Commands\MakeBddNameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
