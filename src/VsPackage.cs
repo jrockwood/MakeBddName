@@ -31,6 +31,8 @@ namespace MakeBddName
         {
             Logger.Initialize(this, Vsix.Name);
             MakeBddNameCommand.Initialize(this);
+
+            Logger.LogDebug("Initialized");
         }
     }
 }

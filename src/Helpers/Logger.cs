@@ -24,6 +24,12 @@ namespace MakeBddName.Helpers
             _name = name;
         }
 
+        [Conditional("DEBUG")]
+        public static void LogDebug(string message)
+        {
+            Log(message);
+        }
+
         public static void Log(string message)
         {
             if (string.IsNullOrEmpty(message))
