@@ -26,7 +26,7 @@ namespace MakeBddName
             var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.MakeBddName);
+                var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
                 var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
                 commandService.AddCommand(menuItem);
             }

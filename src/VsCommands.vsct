@@ -6,10 +6,15 @@
   <Include href="KnownImageIds.vsct" />
 
   <Commands package="guidPackage">
+    <Groups>
+      <Group guid="guidTopMenu" id="TopMenu" priority="0x0001" />
+    </Groups>
+
     <Buttons>
-      <Button guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_FOLDER_EXPLORE" />
+      <Button guid="guidMakeBddNameCmdSet" id="cmdMakeBddName" priority="0x0100" type="Button">
+        <Parent guid="guidTopMenu" id="TopMenu" />
         <Icon guid="ImageCatalogGuid" id="ConvertToCodeWebTest" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>IconAndText</CommandFlag>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
@@ -20,23 +25,28 @@
   </Commands>
 
   <CommandPlacements>
-    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
-      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_EXPLORE" />
+    <CommandPlacement guid="guidTopMenu" id="TopMenu" priority="0x0c00">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EDIT" />
     </CommandPlacement>
-    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
-      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
-    </CommandPlacement>
-    <CommandPlacement guid="guidMakeBddNameCmdSet" id="MakeBddName" priority="0x0500">
-      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN" />
+    <CommandPlacement guid="guidTopMenu" id="TopMenu" priority="0x0150">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
     </CommandPlacement>
   </CommandPlacements>
+
+  <VisibilityConstraints>
+    <VisibilityItem guid="guidMakeBddNameCmdSet" id="cmdMakeBddName" context="GUID_TextEditorFactory" />
+  </VisibilityConstraints>
 
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidPackage" value="{c6f71eb1-1c7f-4158-877b-7d4b8e6dc5cc}" />
 
+    <GuidSymbol name="guidTopMenu" value="{98aed3f7-0463-4de4-91fd-1e66a0975e58}">
+      <IDSymbol name="TopMenu" value="0x3001" />
+    </GuidSymbol>
+
     <GuidSymbol name="guidMakeBddNameCmdSet" value="{939ce9d0-7724-4468-95c8-d073c7d5ea9e}">
-      <IDSymbol name="MakeBddName" value="0x0100" />
+      <IDSymbol name="cmdMakeBddName" value="0x0100" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
