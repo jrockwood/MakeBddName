@@ -8,8 +8,11 @@
 
 namespace MakeBddName
 {
+    using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
+    using EnvDTE;
+    using EnvDTE80;
     using Microsoft.VisualStudio.Shell;
 
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
@@ -20,6 +23,22 @@ namespace MakeBddName
          Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class VsPackage : Package
     {
+        //// ===========================================================================================================
+        //// Member Variables
+        //// ===========================================================================================================
+
+        private DTE2 _dte;
+
+        //// ===========================================================================================================
+        //// Methods
+        //// ===========================================================================================================
+
+        public TextSelection GetActiveSelection()
+        {
+            var document = _dte.ActiveDocument?.Object("TextDocument") as TextDocument;
+            return document?.Selection;
+        }
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so
         /// this is the place where you can put all the initialization code that rely on services
@@ -28,7 +47,13 @@ namespace MakeBddName
         protected override void Initialize()
         {
             Logger.Initialize(this, Vsix.Name);
-            MakeBddNameCommand.Initialize(this);
+
+            // Get the required services.
+            var menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            _dte = GetService(typeof(DTE)) as DTE2;
+
+            // Initialize the commands.
+            MakeBddNameCommand.Initialize(menuCommandService, GetActiveSelection);
 
             Logger.LogDebug("Initialized");
         }

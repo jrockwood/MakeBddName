@@ -10,8 +10,8 @@ namespace MakeBddName
 {
     using System;
     using System.ComponentModel.Design;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
+    using System.Diagnostics;
+    using EnvDTE;
 
     /// <summary>
     /// Represents the "Make BDD Name" menu command.
@@ -22,22 +22,18 @@ namespace MakeBddName
         //// Member Variables
         //// ===========================================================================================================
 
-        private readonly Package _package;
+        private readonly Func<TextSelection> _getTextSelectionFunc;
 
         //// ===========================================================================================================
         //// Constructors
         //// ===========================================================================================================
 
-        private MakeBddNameCommand(Package package)
+        private MakeBddNameCommand(IMenuCommandService menuCommandService, Func<TextSelection> getTextSelectionFunc)
         {
-            if (package == null)
-            {
-                throw new ArgumentNullException(nameof(package));
-            }
-
-            _package = package;
-
-            RegisterCommand();
+            Debug.Assert(menuCommandService != null, "commandService != null");
+            Debug.Assert(getTextSelectionFunc != null, "getTextSelectionFunc != null");
+            RegisterCommand(menuCommandService);
+            _getTextSelectionFunc = getTextSelectionFunc;
         }
 
         //// ===========================================================================================================
@@ -49,47 +45,82 @@ namespace MakeBddName
         /// </summary>
         public static MakeBddNameCommand Instance { get; private set; }
 
-        /// <summary>
-        /// Gets the service provider from the owner package.
-        /// </summary>
-        private IServiceProvider ServiceProvider => _package;
-
         //// ===========================================================================================================
         //// Methods
         //// ===========================================================================================================
 
         /// <summary>
-        /// Initializes the singleton instance of the command.
+        /// Initializes the singleton instance of the command by registering the command with the
+        /// Visual Studio environment.
         /// </summary>
-        /// <param name="package">Owner package, not null.</param>
-        public static void Initialize(Package package)
+        public static void Initialize(IMenuCommandService menuCommandService, Func<TextSelection> getTextSelectionFunc)
         {
-            Instance = new MakeBddNameCommand(package);
+            if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
+            if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
+
+            Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc);
         }
 
-        private void RegisterCommand()
+        private static void ExtendSelectionToFullString(TextSelection selection)
         {
-            var commandService = ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            // If the selection is empty, then move left until we see the first quote character.
+            if (selection.IsEmpty)
             {
-                var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
-                var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
-                commandService.AddCommand(menuItem);
+                do
+                {
+                    selection.CharLeft(Extend: true, Count: 1);
+                }
+                while (selection.Text[0] != '"' && !selection.ActivePoint.AtStartOfLine);
+
+                if (!selection.ActivePoint.AtStartOfLine)
+                {
+                    // Make sure the selection only includes the quote char.
+                    selection.SwapAnchor();
+                    selection.CharRight(Extend: true, Count: -(selection.Text.Length - 1));
+                    selection.SwapAnchor();
+
+                    // Now get one more char to the left.
+                    selection.CharLeft(Extend: true, Count: 1);
+                }
             }
+
+            // Select left until we see a quote character.
+            if (selection.IsActiveEndGreater)
+            {
+                selection.SwapAnchor();
+            }
+
+            while ((selection.IsEmpty || selection.Text[0] != '"') && !selection.ActivePoint.AtStartOfLine)
+            {
+                selection.CharLeft(Extend: true, Count: 1);
+            }
+
+            // Select right until we see a quote character.
+            selection.SwapAnchor();
+            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"') && !selection.ActivePoint.AtEndOfLine)
+            {
+                selection.CharRight(Extend: true, Count: 1);
+            }
+        }
+
+        private void RegisterCommand(IMenuCommandService menuCommandService)
+        {
+            var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
+            var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
+            menuCommandService.AddCommand(menuItem);
         }
 
         private void OnMakeBddNameCommandClick(object sender, EventArgs e)
         {
-            string message = $"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}";
+            Logger.Log($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                ServiceProvider,
-                message,
-                "MakeBddNameCommand",
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            TextSelection selection = _getTextSelectionFunc();
+            ExtendSelectionToFullString(selection);
+            string bddName = BddNamer.ToBddName(selection.Text);
+            selection.Insert(
+                bddName,
+                (int)(vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd));
+            selection.Collapse();
         }
     }
 }
