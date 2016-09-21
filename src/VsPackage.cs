@@ -33,10 +33,11 @@ namespace MakeBddName
         //// Methods
         //// ===========================================================================================================
 
-        public TextSelection GetActiveSelection()
+        internal ITextSelection GetActiveSelection()
         {
             var document = _dte.ActiveDocument?.Object("TextDocument") as TextDocument;
-            return document?.Selection;
+            TextSelection vsSelection = document?.Selection;
+            return vsSelection != null ? new VsTextSelectionWrapper(vsSelection) : null;
         }
 
         /// <summary>

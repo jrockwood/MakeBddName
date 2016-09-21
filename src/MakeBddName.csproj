@@ -69,6 +69,7 @@
       <DependentUpon>VsCommands.vsct</DependentUpon>
     </Compile>
     <Compile Include="VsPackage.cs" />
+    <Compile Include="VsTextSelectionWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

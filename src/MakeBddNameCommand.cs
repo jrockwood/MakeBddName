@@ -22,13 +22,13 @@ namespace MakeBddName
         //// Member Variables
         //// ===========================================================================================================
 
-        private readonly Func<TextSelection> _getTextSelectionFunc;
+        private readonly Func<ITextSelection> _getTextSelectionFunc;
 
         //// ===========================================================================================================
         //// Constructors
         //// ===========================================================================================================
 
-        private MakeBddNameCommand(IMenuCommandService menuCommandService, Func<TextSelection> getTextSelectionFunc)
+        private MakeBddNameCommand(IMenuCommandService menuCommandService, Func<ITextSelection> getTextSelectionFunc)
         {
             Debug.Assert(menuCommandService != null, "commandService != null");
             Debug.Assert(getTextSelectionFunc != null, "getTextSelectionFunc != null");
@@ -53,7 +53,7 @@ namespace MakeBddName
         /// Initializes the singleton instance of the command by registering the command with the
         /// Visual Studio environment.
         /// </summary>
-        public static void Initialize(IMenuCommandService menuCommandService, Func<TextSelection> getTextSelectionFunc)
+        public static void Initialize(IMenuCommandService menuCommandService, Func<ITextSelection> getTextSelectionFunc)
         {
             if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
             if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
@@ -61,26 +61,26 @@ namespace MakeBddName
             Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc);
         }
 
-        private static void ExtendSelectionToFullString(TextSelection selection)
+        internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
             // If the selection is empty, then move left until we see the first quote character.
             if (selection.IsEmpty)
             {
                 do
                 {
-                    selection.CharLeft(Extend: true, Count: 1);
+                    selection.CharLeft(extend: true, count: 1);
                 }
-                while (selection.Text[0] != '"' && !selection.ActivePoint.AtStartOfLine);
+                while (selection.Text[0] != '"' && !selection.ActivePointAtStartOfLine);
 
-                if (!selection.ActivePoint.AtStartOfLine)
+                if (!selection.ActivePointAtStartOfLine)
                 {
                     // Make sure the selection only includes the quote char.
                     selection.SwapAnchor();
-                    selection.CharRight(Extend: true, Count: -(selection.Text.Length - 1));
+                    selection.CharRight(extend: true, count: -(selection.Text.Length - 1));
                     selection.SwapAnchor();
 
                     // Now get one more char to the left.
-                    selection.CharLeft(Extend: true, Count: 1);
+                    selection.CharLeft(extend: true, count: 1);
                 }
             }
 
@@ -90,16 +90,16 @@ namespace MakeBddName
                 selection.SwapAnchor();
             }
 
-            while ((selection.IsEmpty || selection.Text[0] != '"') && !selection.ActivePoint.AtStartOfLine)
+            while ((selection.IsEmpty || selection.Text[0] != '"') && !selection.ActivePointAtStartOfLine)
             {
-                selection.CharLeft(Extend: true, Count: 1);
+                selection.CharLeft(extend: true, count: 1);
             }
 
             // Select right until we see a quote character.
             selection.SwapAnchor();
-            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"') && !selection.ActivePoint.AtEndOfLine)
+            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"') && !selection.ActivePointAtEndOfLine)
             {
-                selection.CharRight(Extend: true, Count: 1);
+                selection.CharRight(extend: true, count: 1);
             }
         }
 
@@ -114,12 +114,13 @@ namespace MakeBddName
         {
             Logger.Log($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
-            TextSelection selection = _getTextSelectionFunc();
+            ITextSelection selection = _getTextSelectionFunc();
             ExtendSelectionToFullString(selection);
             string bddName = BddNamer.ToBddName(selection.Text);
+            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             selection.Insert(
                 bddName,
-                (int)(vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd));
+                vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd);
             selection.Collapse();
         }
     }
