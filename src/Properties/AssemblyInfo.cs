@@ -7,6 +7,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MakeBddName;
 
@@ -21,3 +22,4 @@ using MakeBddName;
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion(Vsix.Version)]
 [assembly: AssemblyFileVersion(Vsix.Version)]
+[assembly: InternalsVisibleTo("MakeBddNameTests")]
