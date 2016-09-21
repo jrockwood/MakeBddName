@@ -63,24 +63,42 @@ namespace MakeBddName
 
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
-            // If the selection is empty, then move left until we see the first quote character.
+            // If the selection is empty, check for the common case where the user just finished
+            // typing a string and the caret is at the end of the string. Like this: "my test"|
+            // We'll detect this case by seeing if we have a quote just to the left of the selection
+            // and no quote until the end of the line.
             if (selection.IsEmpty)
             {
-                do
+                selection.CharLeft(extend: true, count: 1);
+                if (selection.Text == "\"")
                 {
-                    selection.CharLeft(extend: true, count: 1);
-                }
-                while (selection.Text[0] != '"' && !selection.ActivePointAtStartOfLine);
-
-                if (!selection.ActivePointAtStartOfLine)
-                {
-                    // Make sure the selection only includes the quote char.
                     selection.SwapAnchor();
-                    selection.CharRight(extend: true, count: -(selection.Text.Length - 1));
-                    selection.SwapAnchor();
+                    if (selection.ActivePointAtEndOfLine)
+                    {
+                        // We're seeing this pattern: ..."|<eol> which means that we want to let the
+                        // normal processing of a selection within a string take place further below.
+                        // But first reset the anchor to just after the quote and clear the selection.
+                        selection.CharLeft(extend: false, count: 1);
+                    }
+                    else
+                    {
+                        do
+                        {
+                            selection.CharRight(extend: true, count: 1);
+                        }
+                        while (selection.Text[selection.Text.Length - 1] != '"' && !selection.ActivePointAtEndOfLine);
 
-                    // Now get one more char to the left.
-                    selection.CharLeft(extend: true, count: 1);
+                        if (selection.Text[selection.Text.Length - 1] == '"')
+                        {
+                            // We saw this pattern: "...", which is now the answer we want
+                            return;
+                        }
+
+                        // We now know that we're looking at this pattern ..."|, so reset the anchor
+                        // and selection and let the normal processing below happen.
+                        selection.SwapAnchor();
+                        selection.Collapse();
+                    }
                 }
             }
 
