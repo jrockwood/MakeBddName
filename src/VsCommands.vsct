@@ -37,6 +37,12 @@
     <VisibilityItem guid="guidMakeBddNameCmdSet" id="cmdMakeBddName" context="GUID_TextEditorFactory" />
   </VisibilityConstraints>
 
+  <KeyBindings>
+    <!-- VK_OEM_7 is the single/double quote on the US standard keyboard -->
+    <KeyBinding guid="guidMakeBddNameCmdSet" id="cmdMakeBddName" mod1="Control" key1="VK_OEM_7"
+                mod2="Control" key2="VK_OEM_7" editor="GUID_TextEditorFactory" />
+  </KeyBindings>
+
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidPackage" value="{c6f71eb1-1c7f-4158-877b-7d4b8e6dc5cc}" />
