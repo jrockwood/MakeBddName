@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/uc2k1h13o26xn0om?svg=true)](https://ci.appveyor.com/project/jrockwood/makebddname)
 
 Download the extension at the
-[VS Gallery](http://visualstudiogallery.msdn.microsoft.com/3f820e99-6c0d-41db-aa74-a18d9623b1f3)
+[VS Gallery](https://visualstudiogallery.msdn.microsoft.com/00d78ffb-9c19-49b4-a522-f551553414bb)
 or get the
 [nightly build](http://vsixgallery.com/extension/3ad8ab11-a54c-4f40-8926-d25d05ac7ec6/)
 
