@@ -1,11 +1,28 @@
 # Make BDD Name
 
+[![Build status](https://ci.appveyor.com/api/projects/status/uc2k1h13o26xn0om?svg=true)](https://ci.appveyor.com/project/jrockwood/makebddname)
+
+Download the extension at the
+[VS Gallery](http://visualstudiogallery.msdn.microsoft.com/3f820e99-6c0d-41db-aa74-a18d9623b1f3)
+or get the
+[nightly build](http://vsixgallery.com/extension/3ad8ab11-a54c-4f40-8926-d25d05ac7ec6/)
+
 --------------------------------------------------------------------------------
 
 A Visual Studio extension that adds menu commands to convert a class or method
 name to and from a BDD-style sentence.
 
 See the [changelog](CHANGELOG.md) for updates and roadmap.
+
+## Features
+
+Easily type a BDD-style sentence in quotes for a class or method name, and then
+hit `Ctrl+', Ctrl+'` or select "Make BDD Name" from the shortcut menu.
+
+![Make BDD Name menu](art/menu.png)
+![Make BDD Name menu](art/aftercommand.png)
+
+Watch a video of the usage [here](art/demo.mp4).
 
 ## Prerequisites
 In order to use this extension you must have Visual Studio 2015 installed.
