@@ -5,6 +5,7 @@
     <DisplayName>Make BDD Name</DisplayName>
     <Description xml:space="preserve">A Visual Studio extension that adds menu commands to convert a class or method name to and from a BDD-style sentence.</Description>
     <MoreInfo>https://github.com/jrockwood/MakeBddName</MoreInfo>
+    <License>..\LICENSE.txt</License>
     <Tags>bdd, unit test</Tags>
   </Metadata>
   <Installation>
