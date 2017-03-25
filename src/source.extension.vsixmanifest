@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="3ad8ab11-a54c-4f40-8926-d25d05ac7ec6" Version="1.0" Language="en-US" Publisher="Justin Rockwood" />
+    <Identity Id="3ad8ab11-a54c-4f40-8926-d25d05ac7ec6" Version="1.1" Language="en-US" Publisher="Justin Rockwood" />
     <DisplayName>Make BDD Name</DisplayName>
     <Description xml:space="preserve">A Visual Studio extension that adds menu commands to convert a class or method name to and from a BDD-style sentence.</Description>
     <MoreInfo>https://github.com/jrockwood/MakeBddName</MoreInfo>
