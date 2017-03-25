@@ -1,4 +1,4 @@
-# Road map
+﻿# Road map
 
 - [x] Converting a string into a BDD name
 - [ ] Options screen that allows configuring the BDD name style (underscores,
@@ -16,3 +16,7 @@ Visual Studio extension gallery.
 
 - [x] Initial release
 - [x] Converting a string into a BDD name with underscores
+
+## 1.0.1
+
+- [x] Visual Studio 2017 compatibility
