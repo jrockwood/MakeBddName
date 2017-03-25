@@ -6,6 +6,7 @@
 // <created>2016-09-20</created>
 // ---------------------------------------------------------------------------------------------------------------------
 
+#pragma warning disable IDE1006 // Naming Styles
 // ReSharper disable InconsistentNaming
 
 namespace MakeBddNameTests

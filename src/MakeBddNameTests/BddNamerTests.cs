@@ -6,6 +6,8 @@
 // <created>2016-09-17</created>
 // ---------------------------------------------------------------------------------------------------------------------
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace MakeBddNameTests
 {
     using System;
