@@ -1,4 +1,4 @@
-# Make BDD Name
+﻿# Make BDD Name
 
 [![Build status](https://ci.appveyor.com/api/projects/status/uc2k1h13o26xn0om?svg=true)](https://ci.appveyor.com/project/jrockwood/makebddname)
 
@@ -36,4 +36,4 @@ For cloning and building this project yourself, make sure to install the
 extension for Visual Studio which enables some features used by this project.
 
 ## License
-[Apache 2.0](LICENSE)
+[Apache 2.0](LICENSE.txt)
