@@ -13,14 +13,19 @@ namespace MakeBddName
 
     public static class BddNamer
     {
-        public static string ToBddName(string quotedString, char nonAlphaNumericReplacementChar = '_')
+        /// <summary>
+        /// Converts a string from sentence-style to a valid C# identifier with underscores between words.
+        /// </summary>
+        /// <param name="sentence">The sentence-style string to convert.</param>
+        /// <returns></returns>
+        public static string ToUnderscoreName(string sentence)
         {
-            if (quotedString == null) { throw new ArgumentNullException(nameof(quotedString)); }
+            if (sentence == null) { throw new ArgumentNullException(nameof(sentence)); }
 
             // remove the whitespace and quotes from the beginning and the end
-            string nonQuotedString = quotedString.Trim(' ', '\t', '\n', '\r', '\f', '"', '\'');
-            var builder = new StringBuilder(nonQuotedString.Length);
-            foreach (char c in nonQuotedString)
+            string trimmed = sentence.Trim(' ', '\t', '\n', '\r', '\f', '"', '\'');
+            var builder = new StringBuilder(trimmed.Length);
+            foreach (char c in trimmed)
             {
                 builder.Append(char.IsLetterOrDigit(c) ? c : '_');
             }

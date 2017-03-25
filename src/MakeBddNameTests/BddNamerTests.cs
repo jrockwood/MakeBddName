@@ -17,49 +17,49 @@ namespace MakeBddNameTests
 
     public static class BddNamerTests
     {
-        public class ToBddName
+        public class ToUnderscoreName
         {
             [Test]
             public void should_throw_on_invalid_args()
             {
-                Action action = () => BddNamer.ToBddName(null);
-                action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("quotedString");
+                Action action = () => BddNamer.ToUnderscoreName(null);
+                action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("sentence");
             }
 
             [Test]
             public void should_rename_a_quoted_string()
             {
-                BddNamer.ToBddName("\"Make bdd name\"").Should().Be("Make_bdd_name");
+                BddNamer.ToUnderscoreName("\"Make bdd name\"").Should().Be("Make_bdd_name");
             }
 
             [Test]
             public void should_rename_an_unquoted_string()
             {
-                BddNamer.ToBddName("make a name").Should().Be("make_a_name");
+                BddNamer.ToUnderscoreName("make a name").Should().Be("make_a_name");
             }
 
             [Test]
             public void should_replace_non_alpha_numeric_characters()
             {
-                BddNamer.ToBddName("quote\"@here").Should().Be("quote__here");
+                BddNamer.ToUnderscoreName("quote\"@here").Should().Be("quote__here");
             }
 
             [Test]
             public void should_trim_non_alpha_numeric_characters_from_the_ends()
             {
-                BddNamer.ToBddName("@#$hello_there$&*").Should().Be("hello_there");
+                BddNamer.ToUnderscoreName("@#$hello_there$&*").Should().Be("hello_there");
             }
 
             [Test]
             public void should_preserve_underscores()
             {
-                BddNamer.ToBddName("hello_there").Should().Be("hello_there");
+                BddNamer.ToUnderscoreName("hello_there").Should().Be("hello_there");
             }
 
             [Test]
             public void should_return_an_empty_string_if_all_whitespace_or_non_alpha_numeric()
             {
-                BddNamer.ToBddName("  @%^*  ").Should().BeEmpty();
+                BddNamer.ToUnderscoreName("  @%^*  ").Should().BeEmpty();
             }
         }
     }

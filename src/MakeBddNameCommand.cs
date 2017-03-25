@@ -134,7 +134,7 @@ namespace MakeBddName
 
             ITextSelection selection = _getTextSelectionFunc();
             ExtendSelectionToFullString(selection);
-            string bddName = BddNamer.ToBddName(selection.Text);
+            string bddName = BddNamer.ToUnderscoreName(selection.Text);
             // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             selection.Insert(
                 bddName,
