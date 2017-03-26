@@ -97,7 +97,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\MakeBddName.ico" />
+    <Content Include="Resources\MakeBddName200x200.png" />
     <Content Include="Resources\VsPackage.ico" />
+    <Content Include="source.extension.ico">
+      <DependentUpon>source.extension.vsixmanifest</DependentUpon>
+    </Content>
     <VSCTCompile Include="VsCommands.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <Generator>VsctGenerator</Generator>
