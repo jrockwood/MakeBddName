@@ -18,8 +18,9 @@ Visual Studio extension gallery.
 ## 1.0
 
 * Initial release
-* Converting a string into a BDD name with underscores
+* Convert a string into a BDD name with underscores
 
 ## 1.1
 
 * Visual Studio 2017 compatibility
+* Added a preview image and an icon for the package
