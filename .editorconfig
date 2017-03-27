@@ -11,7 +11,7 @@ end_of_line              = crlf
 charset                  = utf-8
 trim_trailing_whitespace = true
 
-[*.{json,xml,html,csproj}]
+[*.{json,xml,html,csproj,vsixmanifest}]
 indent_size = 2
 
 [*.md]

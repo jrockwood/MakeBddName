@@ -24,6 +24,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
@@ -41,7 +42,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MakeBddName</RootNamespace>
     <AssemblyName>MakeBddName</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
@@ -88,6 +89,10 @@
     <Compile Include="VsTextSelectionWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\LICENSE">
+      <Link>Resources\LICENSE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
@@ -97,9 +102,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\MakeBddName.ico" />
-    <Content Include="Resources\MakeBddName200x200.png" />
-    <Content Include="Resources\VsPackage.ico" />
+    <Content Include="Resources\Preview.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\Icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="source.extension.ico">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Content>
