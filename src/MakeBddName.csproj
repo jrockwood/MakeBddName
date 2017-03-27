@@ -97,8 +97,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Preview.png" />
-    <Content Include="Resources\Icon.png" />
+    <Content Include="..\LICENSE.txt">
+      <Link>Resources\LICENSE.txt</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\Preview.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\Icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="source.extension.ico">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Content>
