@@ -97,9 +97,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\MakeBddName.ico" />
-    <Content Include="Resources\MakeBddName200x200.png" />
-    <Content Include="Resources\VsPackage.ico" />
+    <Content Include="Resources\Preview.png" />
+    <Content Include="Resources\Icon.png" />
     <Content Include="source.extension.ico">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Content>
