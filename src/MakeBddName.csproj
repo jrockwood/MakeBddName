@@ -88,6 +88,10 @@
     <Compile Include="VsTextSelectionWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\LICENSE">
+      <Link>Resources\LICENSE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
@@ -97,10 +101,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\LICENSE.txt">
-      <Link>Resources\LICENSE.txt</Link>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Resources\Preview.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
