@@ -23,4 +23,4 @@ Visual Studio extension gallery.
 ## 1.1
 
 * Visual Studio 2017 compatibility
-* Added a preview image and an icon for the package
+* Fixed the preview image and icon for the package so they show up in the gallery correctly
