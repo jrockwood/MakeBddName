@@ -41,7 +41,7 @@ namespace MakeBddNameTests
             [Test]
             public void should_replace_non_alpha_numeric_characters()
             {
-                BddNamer.ToUnderscoreName("quote\"@here").Should().Be("quote_here");
+                BddNamer.ToUnderscoreName("quote\"@here").Should().Be("quote__here");
             }
 
             [Test]
@@ -69,6 +69,13 @@ namespace MakeBddNameTests
             }
 
             [Test]
+            public void should_change_the_casing_of_the_sentence()
+            {
+                BddNamer.ToUnderscoreName("should Be a SenteNCe", makeSentence: true)
+                    .Should().Be("Should_be_a_sentence");
+            }
+
+            [Test]
             public void should_convert_from_a_pascal_string_to_sentence_style()
             {
                 BddNamer.ToUnderscoreName("ThisIsASentence", makeSentence: true).Should().Be("This_is_a_sentence");
@@ -78,6 +85,21 @@ namespace MakeBddNameTests
             public void should_leave_a_single_word_untouched()
             {
                 BddNamer.ToUnderscoreName("Word").Should().Be("Word");
+            }
+
+            [Test]
+            public void should_return_the_same_string_if_already_underscore_case()
+            {
+                BddNamer.ToUnderscoreName("already_underscore").Should().Be("already_underscore");
+            }
+
+            [Test]
+            public void should_treat_the_sentence_as_an_underscore_sentence_if_there_is_at_least_one()
+            {
+                BddNamer.ToUnderscoreName("PascalCase_WithAnUnderscore", makeSentence: false)
+                    .Should().Be("PascalCase_WithAnUnderscore");
+                BddNamer.ToUnderscoreName("PascalCase_WithAnUnderscore", makeSentence: true)
+                    .Should().Be("PascalCase_withanunderscore");
             }
         }
 
@@ -154,6 +176,18 @@ namespace MakeBddNameTests
             public void should_convert_a_single_lowercase_word_to_uppercase()
             {
                 BddNamer.ToPascalCase("word").Should().Be("Word");
+            }
+
+            [Test]
+            public void should_return_the_same_string_if_already_PascalCase()
+            {
+                BddNamer.ToPascalCase("PascalCase").Should().Be("PascalCase");
+            }
+
+            [Test]
+            public void should_strip_underscores_if_there_is_a_space_in_the_sentence()
+            {
+                BddNamer.ToPascalCase("here_ is an underscore").Should().Be("HereIsAnUnderscore");
             }
         }
     }

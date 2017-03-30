@@ -27,12 +27,16 @@ namespace MakeBddName
         /// <example>"This is my method name" becomes "This_is_my_method_name"</example>
         public static string ToUnderscoreName(string sentence, bool makeSentence = false)
         {
-            IEnumerable<string> words = NormalizeSentence(sentence, nonAlphaNumbericReplacementChar: '_');
-            if (makeSentence)
+            string[] words = NormalizeSentence(sentence, nonAlphaNumbericReplacementChar: '_');
+            if (makeSentence && words.Length > 0)
             {
-                // ReSharper disable PossibleMultipleEnumeration
-                words = words.Take(1).Concat(words.Skip(1).Select(word => word.ToLowerInvariant()));
-                // ReSharper restore PossibleMultipleEnumeration
+                // capitalize the first letter of the first word
+                string firstWord = words[0];
+                firstWord = char.ToUpper(firstWord[0]) + firstWord.Substring(1);
+
+                // change the case of the rest of the words
+                words = words.Select(word => word.ToLower()).ToArray();
+                words[0] = firstWord;
             }
 
             return string.Join("_", words);
@@ -47,8 +51,13 @@ namespace MakeBddName
         /// <example>"This is my method name" becomes "ThisIsMyMethodName"</example>
         public static string ToPascalCase(string sentence)
         {
-            IEnumerable<string> words = NormalizeSentence(sentence, nonAlphaNumbericReplacementChar: null);
-            words = words.Select(word => char.ToUpperInvariant(word[0]) + word.Substring(1)).ToArray();
+            string[] words = NormalizeSentence(sentence, nonAlphaNumbericReplacementChar: null);
+            if (words.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            words = words.Select(word => char.ToUpper(word[0]) + word.Substring(1)).ToArray();
             return string.Join("", words);
         }
 
@@ -56,52 +65,61 @@ namespace MakeBddName
         /// Normalizes a sentence into words.
         /// </summary>
         /// <param name="sentence">
-        /// The raw sentence, which could be a combination of sentence-style (spaces between words),
-        /// PascalCase, or underscore '_' delimited words.
+        /// The raw sentence, which could be a either a sentence-style (spaces between words),
+        /// PascalCase, or underscore sentence ('_' between words). Detection of the source style is
+        /// done in the following order: space-delimited, underscore-delimited, UpperCase-delimited.
         /// </param>
         /// <param name="nonAlphaNumbericReplacementChar">
         /// The character to use for substituting non-alphanumeric characters.
         /// </param>
         /// <returns>An array of words.</returns>
-        private static IEnumerable<string> NormalizeSentence(string sentence, char? nonAlphaNumbericReplacementChar)
+        private static string[] NormalizeSentence(string sentence, char? nonAlphaNumbericReplacementChar)
         {
             if (sentence == null) { throw new ArgumentNullException(nameof(sentence)); }
 
             // remove the whitespace and quotes from the beginning and the end
             string trimmed = sentence.Trim(' ', '\t', '\n', '\r', '\f', '"', '\'');
 
+            // detect the type of sentence in this order:
+            // whitespace-delimited words
+            // underscore-delimited words
+            // uppercase-letter-delimited words
+            string[] words;
+
+            if (trimmed.Any(char.IsWhiteSpace))
+            {
+                words = trimmed.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            }
+            else if (trimmed.Any(c => c == '_'))
+            {
+                words = trimmed.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            else
+            {
+                words = SplitPascalCaseIntoWords(trimmed);
+            }
+
             // replace all non-alphanumeric characters
-            var builder = new StringBuilder(trimmed);
-            for (int i = 0; i < builder.Length; i++)
-            {
-                char c = builder[i];
-                if (!char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c))
-                {
-                    builder[i] = nonAlphaNumbericReplacementChar.GetValueOrDefault(' ');
-                }
-            }
+            words = words.Select(word => ReplaceNonAlphaNumericChars(word, nonAlphaNumbericReplacementChar)).ToArray();
 
-            trimmed = builder.ToString();
+            // don't return an array of empty strings
+            return words.All(string.IsNullOrWhiteSpace) ? new string[0] : words;
+        }
 
-            // trim any non-alphanumeric character replacements
-            if (nonAlphaNumbericReplacementChar.HasValue)
-            {
-                trimmed = trimmed.Trim(nonAlphaNumbericReplacementChar.Value);
-            }
-
-            // split the string into words
+        /// <summary>
+        /// Takes a sentence in PascalCase style and splits it into individual words by looking at
+        /// capital letters as the word delimiter.
+        /// </summary>
+        /// <param name="pascalCaseSentence">The sentence to split.</param>
+        /// <returns>An array of words.</returns>
+        private static string[] SplitPascalCaseIntoWords(string pascalCaseSentence)
+        {
             var words = new List<string>();
-            builder.Clear();
-            foreach (char c in trimmed)
+            var builder = new StringBuilder();
+
+            foreach (char c in pascalCaseSentence)
             {
-                // we hit a word boundary, so add the word and start a new one
-                if (char.IsWhiteSpace(c) || c == nonAlphaNumbericReplacementChar.GetValueOrDefault('\0'))
-                {
-                    words.Add(builder.ToString());
-                    builder.Clear();
-                }
-                // an upper-case letter is also a word boundary
-                else if (char.IsLetter(c) && char.IsUpper(c))
+                if (char.IsNumber(c) || (char.IsLetter(c) && char.IsUpper(c)))
                 {
                     if (builder.Length > 0)
                     {
@@ -122,7 +140,47 @@ namespace MakeBddName
                 words.Add(builder.ToString());
             }
 
-            return words.Where(word => !string.IsNullOrWhiteSpace(word));
+            return words.ToArray();
+        }
+
+        /// <summary>
+        /// Replaces or removes all non-alphanumeric characters in the word.
+        /// </summary>
+        /// <param name="word">The word to analyze.</param>
+        /// <param name="nonAlphaNumbericReplacementChar">
+        /// If supplied, all non-alphanumeric characters are replaced with the specified character.
+        /// Otherwise, non-alphanumeric characters are stripped from the word.
+        /// </param>
+        /// <returns>The word with non-alphanumeric characters either removed or replaced.</returns>
+        private static string ReplaceNonAlphaNumericChars(string word, char? nonAlphaNumbericReplacementChar)
+        {
+            var builder = new StringBuilder();
+
+            foreach (char c in word)
+            {
+                // keep the character if it's a letter, digit, or number
+                if (char.IsLetterOrDigit(c) || char.IsNumber(c))
+                {
+                    builder.Append(c);
+                }
+
+                // replace the character
+                else if (nonAlphaNumbericReplacementChar.HasValue)
+                {
+                    builder.Append(nonAlphaNumbericReplacementChar.Value);
+                }
+
+                // skip the character if the caller doesn't want it replaced
+            }
+
+            // trim any non-alphanumeric character replacements
+            string newWord = builder.ToString();
+            if (nonAlphaNumbericReplacementChar.HasValue)
+            {
+                newWord = newWord.Trim(nonAlphaNumbericReplacementChar.Value);
+            }
+
+            return newWord;
         }
     }
 }
