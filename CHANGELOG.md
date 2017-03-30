@@ -24,3 +24,13 @@ Visual Studio extension gallery.
 
 * Visual Studio 2017 compatibility
 * Fixed the preview image and icon for the package so they show up in the gallery correctly
+
+## 1.2
+
+**New Feature:** Added the ability to create BDD names in different formats and to convert to and from
+  the different formats.
+* Sentence with underscores: `"should do something"` -> `should_do_something`
+* Sentence with uppercase start: `"should do something"` -> `Should_do_something`
+* PascalCase: `"should do something"` -> `ShouldDoSomething`
+
+There is a new options page that lets you specify the default format.
