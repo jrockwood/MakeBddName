@@ -14,14 +14,14 @@ namespace MakeBddName
 
     internal static class Logger
     {
-        private static IVsOutputWindowPane _pane;
-        private static IServiceProvider _provider;
-        private static string _name;
+        private static IVsOutputWindowPane s_pane;
+        private static IServiceProvider s_provider;
+        private static string s_name;
 
         public static void Initialize(IServiceProvider provider, string name)
         {
-            _provider = provider;
-            _name = name;
+            s_provider = provider;
+            s_name = name;
         }
 
         [Conditional("DEBUG")]
@@ -41,7 +41,7 @@ namespace MakeBddName
             {
                 if (EnsurePane())
                 {
-                    _pane.OutputString(DateTime.Now + ": " + message + Environment.NewLine);
+                    s_pane.OutputString(DateTime.Now + ": " + message + Environment.NewLine);
                 }
             }
             catch (Exception ex)
@@ -60,15 +60,15 @@ namespace MakeBddName
 
         private static bool EnsurePane()
         {
-            if (_pane == null)
+            if (s_pane == null)
             {
-                Guid guid = Guid.NewGuid();
-                var output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
-                output.CreatePane(ref guid, _name, fInitVisible: 1, fClearWithSolution: 1);
-                output.GetPane(ref guid, out _pane);
+                var guid = Guid.NewGuid();
+                var output = (IVsOutputWindow)s_provider.GetService(typeof(SVsOutputWindow));
+                output.CreatePane(ref guid, s_name, fInitVisible: 1, fClearWithSolution: 1);
+                output.GetPane(ref guid, out s_pane);
             }
 
-            return _pane != null;
+            return s_pane != null;
         }
     }
 }
