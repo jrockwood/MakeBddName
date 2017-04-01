@@ -20,7 +20,7 @@ namespace MakeBddName
         //// Member Variables
         //// ===========================================================================================================
 
-        private TextSelection _selection;
+        private readonly TextSelection _selection;
 
         //// ===========================================================================================================
         //// Constructors
@@ -28,8 +28,7 @@ namespace MakeBddName
 
         public VsTextSelectionWrapper(TextSelection selection)
         {
-            if (selection == null) { throw new ArgumentNullException(nameof(selection)); }
-            _selection = selection;
+            _selection = selection ?? throw new ArgumentNullException(nameof(selection));
         }
 
         //// ===========================================================================================================

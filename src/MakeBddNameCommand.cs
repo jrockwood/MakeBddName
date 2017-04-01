@@ -115,7 +115,8 @@ namespace MakeBddName
 
             // Select right until we see a quote character.
             selection.SwapAnchor();
-            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"') && !selection.ActivePointAtEndOfLine)
+            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"')
+                && !selection.ActivePointAtEndOfLine)
             {
                 selection.CharRight(extend: true, count: 1);
             }
