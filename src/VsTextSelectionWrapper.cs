@@ -53,6 +53,22 @@ namespace MakeBddName
 
         public void Insert(string text, vsInsertFlags insertFlags) => _selection.Insert(text, (int)insertFlags);
 
+        public void PerformActionAndRestoreSelection(Action action)
+        {
+            VirtualPoint oldActivePoint = _selection.ActivePoint;
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                _selection.MoveToPoint(oldActivePoint, Extend: false);
+            }
+        }
+
+        public void SelectLine() => _selection.SelectLine();
+
         public void SwapAnchor() => _selection.SwapAnchor();
     }
 }

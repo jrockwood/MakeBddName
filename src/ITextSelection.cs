@@ -8,6 +8,7 @@
 
 namespace MakeBddName
 {
+    using System;
     using EnvDTE;
 
     /// <summary>
@@ -81,6 +82,18 @@ namespace MakeBddName
         /// One of the <see cref="vsInsertFlags"/> values indicating how to insert the text.
         /// </param>
         void Insert(string text, vsInsertFlags insertFlags);
+
+        /// <summary>
+        /// Allows the caller to perform an action that may cause the selection state to change, but
+        /// ensure that the selection is reset to what it was before the action.
+        /// </summary>
+        /// <param name="action">The action to run.</param>
+        void PerformActionAndRestoreSelection(Action action);
+
+        /// <summary>
+        /// Selects the line containing the active point.
+        /// </summary>
+        void SelectLine();
 
         /// <summary>
         /// Exchanges the position of the active and the anchor points.
