@@ -9,8 +9,14 @@
 namespace MakeBddName
 {
     using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
     using Microsoft.VisualStudio.Shell;
 
+    /// <summary>
+    /// Represents the options for the package.
+    /// </summary>
+    [Guid("2e4f3764-6c16-42ec-8cc4-6a132f116944")]
     public class OptionsPage : DialogPage
     {
         [Category("Behavior")]
@@ -18,5 +24,14 @@ namespace MakeBddName
         [Description("How to convert the sentence to a BDD name.")]
         [DefaultValue(BddNameStyle.UnderscoreLowerCase)]
         public BddNameStyle NamingStyle { get; set; }
+
+        protected override IWin32Window Window
+        {
+            get
+            {
+                var pageControl = new OptionsPageControl();
+                return pageControl;
+            }
+        }
     }
 }
