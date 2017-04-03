@@ -55,7 +55,10 @@ namespace MakeBddName
 
         public void PerformActionAndRestoreSelection(Action action)
         {
-            VirtualPoint oldActivePoint = _selection.ActivePoint;
+            // We can't just cache _selection.ActivePoint because it's not immutable and changes
+            // according to the current active point. Instead, we'll cache the individual point's
+            // properties in immutable variables so that we can restore them later.
+            int oldAbsoluteCharOffset = _selection.ActivePoint.AbsoluteCharOffset;
 
             try
             {
@@ -63,7 +66,7 @@ namespace MakeBddName
             }
             finally
             {
-                _selection.MoveToPoint(oldActivePoint, Extend: false);
+                _selection.MoveToAbsoluteOffset(oldAbsoluteCharOffset, Extend: false);
             }
         }
 

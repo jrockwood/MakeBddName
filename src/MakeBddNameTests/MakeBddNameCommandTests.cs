@@ -176,6 +176,22 @@ namespace MakeBddNameTests
                     MakeBddNameCommand.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<GenericMethod|>><T>");
                 }
+
+                [Test]
+                public void should_select_the_current_word_if_the_selection_is_at_the_beginning_of_the_word()
+                {
+                    var selection = new MockTextSelection("public void |MyMethodName()");
+                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
+                }
+
+                [Test]
+                public void should_select_the_current_word_if_the_selection_is_at_the_end_of_the_word()
+                {
+                    var selection = new MockTextSelection("public void MyMethodName|()");
+                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
+                }
             }
         }
     }

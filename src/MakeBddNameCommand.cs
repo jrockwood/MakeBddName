@@ -66,6 +66,33 @@ namespace MakeBddName
             bool lookingForQuotes = LineHasQuotes(selection);
             bool IsSelectionEndChar(char c) => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c);
 
+            void AdjustSelection()
+            {
+                // If we selected text that was enclosed with quotes, leave the quote characters in the
+                // selection so they're overwritten.
+                if (lookingForQuotes)
+                {
+                    return;
+                }
+
+                // Decrease the selection by one on both sides if we selected too much.
+                if (selection.IsActiveEndGreater)
+                {
+                    selection.SwapAnchor();
+                }
+
+                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[0]))
+                {
+                    selection.CharRight(extend: true, count: 1);
+                }
+
+                selection.SwapAnchor();
+                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
+                {
+                    selection.CharLeft(extend: true, count: 1);
+                }
+            }
+
             // If the selection is empty, check for the common case where the user just finished
             // typing a string and the caret is at the end of the string. Like this: "my test"|
             // We'll detect this case by seeing if we have a quote just to the left of the selection
@@ -89,12 +116,14 @@ namespace MakeBddName
                         {
                             selection.CharRight(extend: true, count: 1);
                         }
+
                         while (!IsSelectionEndChar(selection.Text[selection.Text.Length - 1])
                             && !selection.ActivePointAtEndOfLine);
 
                         if (IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
                         {
                             // We saw this pattern: "...", which is now the answer we want
+                            AdjustSelection();
                             return;
                         }
 
@@ -125,23 +154,7 @@ namespace MakeBddName
                 selection.CharRight(extend: true, count: 1);
             }
 
-            // If we selected text that was enclosed with quotes, leave the quote characters in the
-            // selection so they're overwritten. Otherwise, we need to decrease the selection by one
-            // on both sides.
-            if (!lookingForQuotes)
-            {
-                selection.SwapAnchor();
-                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[0]))
-                {
-                    selection.CharRight(extend: true, count: 1);
-                }
-
-                selection.SwapAnchor();
-                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
-                {
-                    selection.CharLeft(extend: true, count: 1);
-                }
-            }
+            AdjustSelection();
         }
 
         private static bool LineHasQuotes(ITextSelection selection)
