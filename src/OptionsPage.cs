@@ -19,11 +19,28 @@ namespace MakeBddName
     [Guid("2e4f3764-6c16-42ec-8cc4-6a132f116944")]
     public class OptionsPage : DialogPage
     {
+        private const BddNameStyle DefaultNamingStyle = BddNameStyle.UnderscoreLowerCase;
+
+        private BddNameStyle _namingStyle = DefaultNamingStyle;
+
         [Category("Behavior")]
         [DisplayName("Naming Style")]
         [Description("How to convert the sentence to a BDD name.")]
-        [DefaultValue(BddNameStyle.UnderscoreLowerCase)]
-        public BddNameStyle NamingStyle { get; set; }
+        [DefaultValue(DefaultNamingStyle)]
+        public BddNameStyle NamingStyle
+        {
+            get { return _namingStyle; }
+            set
+            {
+                if (_namingStyle != value)
+                {
+                    _namingStyle = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NamingStyle)));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected override IWin32Window Window
         {

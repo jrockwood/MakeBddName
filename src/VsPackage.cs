@@ -23,9 +23,17 @@ namespace MakeBddName
         typeof(OptionsPage),
         categoryName: "Make BDD Name",
         pageName: "General",
-        categoryResourceID: 0,
-        pageNameResourceID: 0,
+        categoryResourceID: 106,
+        pageNameResourceID: 120,
         supportsAutomation: true)]
+    [ProvideProfile(
+        typeof(OptionsPage),
+        categoryName: "MakeBDDName",
+        objectName: "General",
+        categoryResourceID: 106,
+        objectNameResourceID: 107,
+        isToolsOptionPage: true,
+        DescriptionResourceID = 108)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
          Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class VsPackage : Package

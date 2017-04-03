@@ -9,6 +9,7 @@
 namespace MakeBddName
 {
     using System;
+    using System.ComponentModel;
     using System.Windows.Forms;
 
     /// <summary>
@@ -21,13 +22,34 @@ namespace MakeBddName
             InitializeComponent();
         }
 
-        public WeakReference<OptionsPage> Options { get; private set; }
+        /// <summary>
+        /// Gets or sets the options model object.
+        /// </summary>
+        public OptionsPage Options { get; private set; }
 
+        /// <summary>
+        /// Binds to the specified options.
+        /// </summary>
+        /// <param name="options">The options to bind to.</param>
         public void BindToOptions(OptionsPage options)
         {
-            Options = new WeakReference<OptionsPage>(options);
+            Options = options;
 
-            switch (options.NamingStyle)
+            // Set the initial state in the UI.
+            OnOptionsPagePropertyChanges(options, null);
+
+            // Update the bound options whenever the checkboxes change.
+            _underscoresLowerCaseRadioButton.CheckedChanged += OnCheckedChanged;
+            _underscoresSentenceCaseRadioButton.CheckedChanged += OnCheckedChanged;
+            _pascalCaseRadioButton.CheckedChanged += OnCheckedChanged;
+
+            // Update the state whenever the model changes.
+            options.PropertyChanged += OnOptionsPagePropertyChanges;
+        }
+
+        private void OnOptionsPagePropertyChanges(object sender, PropertyChangedEventArgs args)
+        {
+            switch (Options.NamingStyle)
             {
                 case BddNameStyle.UnderscoreLowerCase:
                     _underscoresLowerCaseRadioButton.Checked = true;
@@ -44,10 +66,6 @@ namespace MakeBddName
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            _underscoresLowerCaseRadioButton.CheckedChanged += OnCheckedChanged;
-            _underscoresSentenceCaseRadioButton.CheckedChanged += OnCheckedChanged;
-            _pascalCaseRadioButton.CheckedChanged += OnCheckedChanged;
         }
 
         private void OnCheckedChanged(object sender, EventArgs e)
@@ -71,11 +89,7 @@ namespace MakeBddName
                 return;
             }
 
-            OptionsPage options;
-            if (Options.TryGetTarget(out options))
-            {
-                options.NamingStyle = namingStyle;
-            }
+            Options.NamingStyle = namingStyle;
         }
     }
 }
