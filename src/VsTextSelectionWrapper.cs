@@ -20,7 +20,7 @@ namespace MakeBddName
         //// Member Variables
         //// ===========================================================================================================
 
-        private TextSelection _selection;
+        private readonly TextSelection _selection;
 
         //// ===========================================================================================================
         //// Constructors
@@ -28,8 +28,7 @@ namespace MakeBddName
 
         public VsTextSelectionWrapper(TextSelection selection)
         {
-            if (selection == null) { throw new ArgumentNullException(nameof(selection)); }
-            _selection = selection;
+            _selection = selection ?? throw new ArgumentNullException(nameof(selection));
         }
 
         //// ===========================================================================================================
@@ -53,6 +52,25 @@ namespace MakeBddName
         public void Collapse() => _selection.Collapse();
 
         public void Insert(string text, vsInsertFlags insertFlags) => _selection.Insert(text, (int)insertFlags);
+
+        public void PerformActionAndRestoreSelection(Action action)
+        {
+            // We can't just cache _selection.ActivePoint because it's not immutable and changes
+            // according to the current active point. Instead, we'll cache the individual point's
+            // properties in immutable variables so that we can restore them later.
+            int oldAbsoluteCharOffset = _selection.ActivePoint.AbsoluteCharOffset;
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                _selection.MoveToAbsoluteOffset(oldAbsoluteCharOffset, Extend: false);
+            }
+        }
+
+        public void SelectLine() => _selection.SelectLine();
 
         public void SwapAnchor() => _selection.SwapAnchor();
     }

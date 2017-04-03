@@ -63,6 +63,36 @@ namespace MakeBddName
 
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
+            bool lookingForQuotes = LineHasQuotes(selection);
+            bool IsSelectionEndChar(char c) => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c);
+
+            void AdjustSelection()
+            {
+                // If we selected text that was enclosed with quotes, leave the quote characters in the
+                // selection so they're overwritten.
+                if (lookingForQuotes)
+                {
+                    return;
+                }
+
+                // Decrease the selection by one on both sides if we selected too much.
+                if (selection.IsActiveEndGreater)
+                {
+                    selection.SwapAnchor();
+                }
+
+                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[0]))
+                {
+                    selection.CharRight(extend: true, count: 1);
+                }
+
+                selection.SwapAnchor();
+                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
+                {
+                    selection.CharLeft(extend: true, count: 1);
+                }
+            }
+
             // If the selection is empty, check for the common case where the user just finished
             // typing a string and the caret is at the end of the string. Like this: "my test"|
             // We'll detect this case by seeing if we have a quote just to the left of the selection
@@ -70,7 +100,7 @@ namespace MakeBddName
             if (selection.IsEmpty)
             {
                 selection.CharLeft(extend: true, count: 1);
-                if (selection.Text == "\"")
+                if (IsSelectionEndChar(selection.Text[0]))
                 {
                     selection.SwapAnchor();
                     if (selection.ActivePointAtEndOfLine)
@@ -86,11 +116,14 @@ namespace MakeBddName
                         {
                             selection.CharRight(extend: true, count: 1);
                         }
-                        while (selection.Text[selection.Text.Length - 1] != '"' && !selection.ActivePointAtEndOfLine);
 
-                        if (selection.Text[selection.Text.Length - 1] == '"')
+                        while (!IsSelectionEndChar(selection.Text[selection.Text.Length - 1])
+                            && !selection.ActivePointAtEndOfLine);
+
+                        if (IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
                         {
                             // We saw this pattern: "...", which is now the answer we want
+                            AdjustSelection();
                             return;
                         }
 
@@ -102,23 +135,38 @@ namespace MakeBddName
                 }
             }
 
-            // Select left until we see a quote character.
+            // Select left until we see an ending character.
             if (selection.IsActiveEndGreater)
             {
                 selection.SwapAnchor();
             }
 
-            while ((selection.IsEmpty || selection.Text[0] != '"') && !selection.ActivePointAtStartOfLine)
+            while ((selection.IsEmpty || !IsSelectionEndChar(selection.Text[0]) && !selection.ActivePointAtStartOfLine))
             {
                 selection.CharLeft(extend: true, count: 1);
             }
 
-            // Select right until we see a quote character.
+            // Select right until we see an ending character.
             selection.SwapAnchor();
-            while ((selection.IsEmpty || selection.Text[selection.Text.Length - 1] != '"') && !selection.ActivePointAtEndOfLine)
+            while ((selection.IsEmpty || !IsSelectionEndChar(selection.Text[selection.Text.Length - 1])
+                && !selection.ActivePointAtEndOfLine))
             {
                 selection.CharRight(extend: true, count: 1);
             }
+
+            AdjustSelection();
+        }
+
+        private static bool LineHasQuotes(ITextSelection selection)
+        {
+            string line = string.Empty;
+            selection.PerformActionAndRestoreSelection(() =>
+            {
+                selection.SelectLine();
+                line = selection.Text;
+            });
+
+            return line.Contains("\"");
         }
 
         private void RegisterCommand(IMenuCommandService menuCommandService)
@@ -134,7 +182,7 @@ namespace MakeBddName
 
             ITextSelection selection = _getTextSelectionFunc();
             ExtendSelectionToFullString(selection);
-            string bddName = BddNamer.ToBddName(selection.Text);
+            string bddName = BddNamer.ToUnderscoreName(selection.Text);
             // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             selection.Insert(
                 bddName,

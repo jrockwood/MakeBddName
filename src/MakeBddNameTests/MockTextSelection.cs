@@ -144,9 +144,15 @@ namespace MakeBddNameTests
                     _selectionEnd = _selectionStart;
                     _selectionStart = newAnchor;
                 }
+                // selection collapses
                 else if (!extend)
                 {
                     _selectionStart = _selectionEnd = newAnchor;
+                }
+                // selection end moves to the left
+                else
+                {
+                    _selectionEnd = newAnchor;
                 }
             }
 
@@ -166,9 +172,15 @@ namespace MakeBddNameTests
                     _selectionStart = _selectionEnd;
                     _selectionEnd = newAnchor;
                 }
+                // selection collapses
                 else if (!extend)
                 {
                     _selectionStart = _selectionEnd = newAnchor;
+                }
+                // selection start is moved to the right
+                else
+                {
+                    _selectionStart = newAnchor;
                 }
             }
             // moving the end to the right
@@ -187,6 +199,13 @@ namespace MakeBddNameTests
         public void Collapse()
         {
             _selectionStart = _selectionEnd = _anchorPosition;
+        }
+
+        public void SelectLine()
+        {
+            _selectionStart = 0;
+            _selectionEnd = _line.Length;
+            _anchorPosition = _selectionEnd;
         }
 
         public void SwapAnchor()
@@ -231,11 +250,30 @@ namespace MakeBddNameTests
             }
         }
 
+        public void PerformActionAndRestoreSelection(Action action)
+        {
+            int oldStart = _selectionStart;
+            int oldEnd = _selectionEnd;
+            int oldAnchor = _anchorPosition;
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                _selectionStart = oldStart;
+                _selectionEnd = oldEnd;
+                _anchorPosition = oldAnchor;
+            }
+        }
+
         private int CalculateNewAnchor(int count)
         {
-            Debug.Assert(
-                _anchorPosition == _selectionStart || _anchorPosition == _selectionEnd,
-                "Anchor is in an invalid position");
+            if (_anchorPosition != _selectionStart && _anchorPosition != _selectionEnd)
+            {
+                throw new InvalidOperationException("Anchor is in an invalid position");
+            }
 
             int newAnchor = _anchorPosition + count;
             if (newAnchor < 0)
