@@ -19,6 +19,13 @@ namespace MakeBddName
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
     [Guid(PackageGuids.guidPackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(
+        typeof(OptionsPage),
+        categoryName: "Make BDD Name",
+        pageName: "General",
+        categoryResourceID: 0,
+        pageNameResourceID: 0,
+        supportsAutomation: true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
          Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class VsPackage : Package

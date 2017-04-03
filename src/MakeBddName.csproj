@@ -73,9 +73,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BddNamer.cs" />
+    <Compile Include="BddNameStyle.cs" />
     <Compile Include="ITextSelection.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MakeBddNameCommand.cs" />
+    <Compile Include="OptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source.extension.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
