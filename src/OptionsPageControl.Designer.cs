@@ -40,9 +40,9 @@ namespace MakeBddName
             System.Windows.Forms.Label pascalCaseLabel;
             System.Windows.Forms.Label underscoresSentenceCaseLabel;
             System.Windows.Forms.Label underscoreLowerCaseLabel;
-            this.pascalCaseRadioButton = new System.Windows.Forms.RadioButton();
-            this.underscoresSentenceCaseRadioButton = new System.Windows.Forms.RadioButton();
-            this.underscoreLowerCaseRadioButton = new System.Windows.Forms.RadioButton();
+            this._pascalCaseRadioButton = new System.Windows.Forms.RadioButton();
+            this._underscoresSentenceCaseRadioButton = new System.Windows.Forms.RadioButton();
+            this._underscoresLowerCaseRadioButton = new System.Windows.Forms.RadioButton();
             namingStyleGroupBox = new System.Windows.Forms.GroupBox();
             pascalCaseLabel = new System.Windows.Forms.Label();
             underscoresSentenceCaseLabel = new System.Windows.Forms.Label();
@@ -55,10 +55,10 @@ namespace MakeBddName
             namingStyleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             namingStyleGroupBox.Controls.Add(pascalCaseLabel);
-            namingStyleGroupBox.Controls.Add(this.pascalCaseRadioButton);
-            namingStyleGroupBox.Controls.Add(this.underscoresSentenceCaseRadioButton);
+            namingStyleGroupBox.Controls.Add(this._pascalCaseRadioButton);
+            namingStyleGroupBox.Controls.Add(this._underscoresSentenceCaseRadioButton);
             namingStyleGroupBox.Controls.Add(underscoresSentenceCaseLabel);
-            namingStyleGroupBox.Controls.Add(this.underscoreLowerCaseRadioButton);
+            namingStyleGroupBox.Controls.Add(this._underscoresLowerCaseRadioButton);
             namingStyleGroupBox.Controls.Add(underscoreLowerCaseLabel);
             namingStyleGroupBox.Location = new System.Drawing.Point(3, 3);
             namingStyleGroupBox.Name = "namingStyleGroupBox";
@@ -77,29 +77,29 @@ namespace MakeBddName
             pascalCaseLabel.TabIndex = 5;
             pascalCaseLabel.Text = "Example: ShouldDoSomething()";
             // 
-            // pascalCaseRadioButton
+            // _pascalCaseRadioButton
             // 
-            this.pascalCaseRadioButton.AutoSize = true;
-            this.pascalCaseRadioButton.Location = new System.Drawing.Point(9, 106);
-            this.pascalCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
-            this.pascalCaseRadioButton.Name = "pascalCaseRadioButton";
-            this.pascalCaseRadioButton.Size = new System.Drawing.Size(81, 17);
-            this.pascalCaseRadioButton.TabIndex = 2;
-            this.pascalCaseRadioButton.TabStop = true;
-            this.pascalCaseRadioButton.Text = "PascalCase";
-            this.pascalCaseRadioButton.UseVisualStyleBackColor = true;
+            this._pascalCaseRadioButton.AutoSize = true;
+            this._pascalCaseRadioButton.Location = new System.Drawing.Point(9, 106);
+            this._pascalCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
+            this._pascalCaseRadioButton.Name = "_pascalCaseRadioButton";
+            this._pascalCaseRadioButton.Size = new System.Drawing.Size(81, 17);
+            this._pascalCaseRadioButton.TabIndex = 2;
+            this._pascalCaseRadioButton.TabStop = true;
+            this._pascalCaseRadioButton.Text = "PascalCase";
+            this._pascalCaseRadioButton.UseVisualStyleBackColor = true;
             // 
-            // underscoresSentenceCaseRadioButton
+            // _underscoresSentenceCaseRadioButton
             // 
-            this.underscoresSentenceCaseRadioButton.AutoSize = true;
-            this.underscoresSentenceCaseRadioButton.Location = new System.Drawing.Point(9, 64);
-            this.underscoresSentenceCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
-            this.underscoresSentenceCaseRadioButton.Name = "underscoresSentenceCaseRadioButton";
-            this.underscoresSentenceCaseRadioButton.Size = new System.Drawing.Size(179, 17);
-            this.underscoresSentenceCaseRadioButton.TabIndex = 1;
-            this.underscoresSentenceCaseRadioButton.TabStop = true;
-            this.underscoresSentenceCaseRadioButton.Text = "Underscores and sentence case";
-            this.underscoresSentenceCaseRadioButton.UseVisualStyleBackColor = true;
+            this._underscoresSentenceCaseRadioButton.AutoSize = true;
+            this._underscoresSentenceCaseRadioButton.Location = new System.Drawing.Point(9, 64);
+            this._underscoresSentenceCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
+            this._underscoresSentenceCaseRadioButton.Name = "_underscoresSentenceCaseRadioButton";
+            this._underscoresSentenceCaseRadioButton.Size = new System.Drawing.Size(179, 17);
+            this._underscoresSentenceCaseRadioButton.TabIndex = 1;
+            this._underscoresSentenceCaseRadioButton.TabStop = true;
+            this._underscoresSentenceCaseRadioButton.Text = "Underscores and sentence case";
+            this._underscoresSentenceCaseRadioButton.UseVisualStyleBackColor = true;
             // 
             // underscoresSentenceCaseLabel
             // 
@@ -111,17 +111,17 @@ namespace MakeBddName
             underscoresSentenceCaseLabel.TabIndex = 4;
             underscoresSentenceCaseLabel.Text = "Example: Should_do_something()";
             // 
-            // underscoreLowerCaseRadioButton
+            // _underscoresLowerCaseRadioButton
             // 
-            this.underscoreLowerCaseRadioButton.AutoSize = true;
-            this.underscoreLowerCaseRadioButton.Location = new System.Drawing.Point(9, 22);
-            this.underscoreLowerCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
-            this.underscoreLowerCaseRadioButton.Name = "underscoreLowerCaseRadioButton";
-            this.underscoreLowerCaseRadioButton.Size = new System.Drawing.Size(160, 17);
-            this.underscoreLowerCaseRadioButton.TabIndex = 0;
-            this.underscoreLowerCaseRadioButton.TabStop = true;
-            this.underscoreLowerCaseRadioButton.Text = "Underscores and lower case";
-            this.underscoreLowerCaseRadioButton.UseVisualStyleBackColor = true;
+            this._underscoresLowerCaseRadioButton.AutoSize = true;
+            this._underscoresLowerCaseRadioButton.Location = new System.Drawing.Point(9, 22);
+            this._underscoresLowerCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
+            this._underscoresLowerCaseRadioButton.Name = "_underscoresLowerCaseRadioButton";
+            this._underscoresLowerCaseRadioButton.Size = new System.Drawing.Size(160, 17);
+            this._underscoresLowerCaseRadioButton.TabIndex = 0;
+            this._underscoresLowerCaseRadioButton.TabStop = true;
+            this._underscoresLowerCaseRadioButton.Text = "Underscores and lower case";
+            this._underscoresLowerCaseRadioButton.UseVisualStyleBackColor = true;
             // 
             // underscoreLowerCaseLabel
             // 
@@ -149,8 +149,8 @@ namespace MakeBddName
 
         #endregion
 
-        private System.Windows.Forms.RadioButton underscoreLowerCaseRadioButton;
-        private System.Windows.Forms.RadioButton pascalCaseRadioButton;
-        private System.Windows.Forms.RadioButton underscoresSentenceCaseRadioButton;
+        private System.Windows.Forms.RadioButton _underscoresLowerCaseRadioButton;
+        private System.Windows.Forms.RadioButton _pascalCaseRadioButton;
+        private System.Windows.Forms.RadioButton _underscoresSentenceCaseRadioButton;
     }
 }
