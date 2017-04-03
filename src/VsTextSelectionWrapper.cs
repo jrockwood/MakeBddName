@@ -28,7 +28,12 @@ namespace MakeBddName
 
         public VsTextSelectionWrapper(TextSelection selection)
         {
-            _selection = selection ?? throw new ArgumentNullException(nameof(selection));
+            if (selection == null)
+            {
+                throw new ArgumentNullException(nameof(selection));
+            }
+
+            _selection = selection;
         }
 
         //// ===========================================================================================================
