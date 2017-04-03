@@ -30,6 +30,7 @@ namespace MakeBddName
             get
             {
                 var pageControl = new OptionsPageControl();
+                pageControl.BindToOptions(this);
                 return pageControl;
             }
         }
