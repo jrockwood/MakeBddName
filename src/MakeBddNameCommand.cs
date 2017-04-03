@@ -64,9 +64,9 @@ namespace MakeBddName
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
             bool lookingForQuotes = LineHasQuotes(selection);
-            bool IsSelectionEndChar(char c) => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c);
+            Func<char, bool> isSelectionEndChar = c => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c);
 
-            void AdjustSelection()
+            Action adjustSelection = () =>
             {
                 // If we selected text that was enclosed with quotes, leave the quote characters in the
                 // selection so they're overwritten.
@@ -81,17 +81,17 @@ namespace MakeBddName
                     selection.SwapAnchor();
                 }
 
-                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[0]))
+                if (!selection.IsEmpty && isSelectionEndChar(selection.Text[0]))
                 {
                     selection.CharRight(extend: true, count: 1);
                 }
 
                 selection.SwapAnchor();
-                if (!selection.IsEmpty && IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
+                if (!selection.IsEmpty && isSelectionEndChar(selection.Text[selection.Text.Length - 1]))
                 {
                     selection.CharLeft(extend: true, count: 1);
                 }
-            }
+            };
 
             // If the selection is empty, check for the common case where the user just finished
             // typing a string and the caret is at the end of the string. Like this: "my test"|
@@ -100,7 +100,7 @@ namespace MakeBddName
             if (selection.IsEmpty)
             {
                 selection.CharLeft(extend: true, count: 1);
-                if (IsSelectionEndChar(selection.Text[0]))
+                if (isSelectionEndChar(selection.Text[0]))
                 {
                     selection.SwapAnchor();
                     if (selection.ActivePointAtEndOfLine)
@@ -117,13 +117,13 @@ namespace MakeBddName
                             selection.CharRight(extend: true, count: 1);
                         }
 
-                        while (!IsSelectionEndChar(selection.Text[selection.Text.Length - 1])
+                        while (!isSelectionEndChar(selection.Text[selection.Text.Length - 1])
                             && !selection.ActivePointAtEndOfLine);
 
-                        if (IsSelectionEndChar(selection.Text[selection.Text.Length - 1]))
+                        if (isSelectionEndChar(selection.Text[selection.Text.Length - 1]))
                         {
                             // We saw this pattern: "...", which is now the answer we want
-                            AdjustSelection();
+                            adjustSelection();
                             return;
                         }
 
@@ -141,20 +141,20 @@ namespace MakeBddName
                 selection.SwapAnchor();
             }
 
-            while ((selection.IsEmpty || !IsSelectionEndChar(selection.Text[0]) && !selection.ActivePointAtStartOfLine))
+            while ((selection.IsEmpty || !isSelectionEndChar(selection.Text[0]) && !selection.ActivePointAtStartOfLine))
             {
                 selection.CharLeft(extend: true, count: 1);
             }
 
             // Select right until we see an ending character.
             selection.SwapAnchor();
-            while ((selection.IsEmpty || !IsSelectionEndChar(selection.Text[selection.Text.Length - 1])
+            while ((selection.IsEmpty || !isSelectionEndChar(selection.Text[selection.Text.Length - 1])
                 && !selection.ActivePointAtEndOfLine))
             {
                 selection.CharRight(extend: true, count: 1);
             }
 
-            AdjustSelection();
+            adjustSelection();
         }
 
         private static bool LineHasQuotes(ITextSelection selection)
