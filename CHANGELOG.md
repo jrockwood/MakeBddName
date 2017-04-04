@@ -1,7 +1,7 @@
 ﻿# Road Map
 
 - [x] Converting a string into a BDD name
-- [ ] Options screen that allows configuring the BDD name style (underscores,
+- [x] Options screen that allows configuring the BDD name style (underscores,
       title case, lower case, etc.)
 - [ ] Ability to define a standard for unit test names for each solution.
 - [ ] Roslyn C# analyzer to detect unit test classes and methods and be able to convert to/from the
@@ -34,3 +34,5 @@ Visual Studio extension gallery.
 * PascalCase: `"should do something"` -> `ShouldDoSomething`
 
 There is a new options page that lets you specify the default format.
+
+![Options Page](art/options.png)
