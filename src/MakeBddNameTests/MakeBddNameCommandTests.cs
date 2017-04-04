@@ -192,6 +192,14 @@ namespace MakeBddNameTests
                     MakeBddNameCommand.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
                 }
+
+                [Test]
+                public void should_select_the_entire_underscore_delimited_word()
+                {
+                    var selection = new MockTextSelection("public void My_metho|d_name()");
+                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<My_method_name|>>()");
+                }
             }
         }
 

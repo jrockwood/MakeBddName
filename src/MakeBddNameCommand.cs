@@ -110,7 +110,7 @@ namespace MakeBddName
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
             bool lookingForQuotes = LineHasQuotes(selection);
-            Func<char, bool> isSelectionEndChar = c => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c);
+            Func<char, bool> isSelectionEndChar = c => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c) && c != '_';
 
             Action adjustSelection = () =>
             {
