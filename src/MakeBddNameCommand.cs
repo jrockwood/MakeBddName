@@ -10,7 +10,6 @@ namespace MakeBddName
 {
     using System;
     using System.ComponentModel.Design;
-    using System.Diagnostics;
     using EnvDTE;
 
     /// <summary>
@@ -23,17 +22,24 @@ namespace MakeBddName
         //// ===========================================================================================================
 
         private readonly Func<ITextSelection> _getTextSelectionFunc;
+        private readonly Func<IOptions> _getOptionsFunc;
 
         //// ===========================================================================================================
         //// Constructors
         //// ===========================================================================================================
 
-        private MakeBddNameCommand(IMenuCommandService menuCommandService, Func<ITextSelection> getTextSelectionFunc)
+        private MakeBddNameCommand(
+            IMenuCommandService menuCommandService,
+            Func<ITextSelection> getTextSelectionFunc,
+            Func<IOptions> getOptionsFunc)
         {
-            Debug.Assert(menuCommandService != null, "commandService != null");
-            Debug.Assert(getTextSelectionFunc != null, "getTextSelectionFunc != null");
+            if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
+            if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
+            if (getOptionsFunc == null) { throw new ArgumentNullException(nameof(getOptionsFunc)); }
+
             RegisterCommand(menuCommandService);
             _getTextSelectionFunc = getTextSelectionFunc;
+            _getOptionsFunc = getOptionsFunc;
         }
 
         //// ===========================================================================================================
@@ -53,14 +59,54 @@ namespace MakeBddName
         /// Initializes the singleton instance of the command by registering the command with the
         /// Visual Studio environment.
         /// </summary>
-        public static void Initialize(IMenuCommandService menuCommandService, Func<ITextSelection> getTextSelectionFunc)
+        public static void Initialize(
+            IMenuCommandService menuCommandService,
+            Func<ITextSelection> getTextSelectionFunc,
+            Func<IOptions> getOptionsFunc)
         {
-            if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
-            if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
-
-            Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc);
+            Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc, getOptionsFunc);
         }
 
+        /// <summary>
+        /// Replaces the selection with the user-specified BDD naming style. Assumes that there is a
+        /// valid selection ( <see cref="ExtendSelectionToFullString"/> has been called already).
+        /// </summary>
+        internal static void RenameSelection(ITextSelection selection, IOptions options)
+        {
+            ExtendSelectionToFullString(selection);
+            BddNameStyle namingStyle = options.NamingStyle;
+
+            // Rename the selection
+            string bddName;
+            switch (namingStyle)
+            {
+                case BddNameStyle.UnderscoreLowerCase:
+                    bddName = BddNamer.ToUnderscoreName(selection.Text, makeSentence: false);
+                    break;
+
+                case BddNameStyle.UnderscoreSentenceCase:
+                    bddName = BddNamer.ToUnderscoreName(selection.Text, makeSentence: true);
+                    break;
+
+                case BddNameStyle.PascalCase:
+                    bddName = BddNamer.ToPascalCase(selection.Text);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+            selection.Insert(
+                bddName,
+                vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd);
+            selection.Collapse();
+        }
+
+        /// <summary>
+        /// Selects the entire word or sentence that should be replaced with a converted BDD name.
+        /// </summary>
+        /// <param name="selection">The selection to examine and modify.</param>
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
             bool lookingForQuotes = LineHasQuotes(selection);
@@ -180,14 +226,13 @@ namespace MakeBddName
         {
             Logger.Log($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
+            // Select the appropriate word/sentence.
             ITextSelection selection = _getTextSelectionFunc();
             ExtendSelectionToFullString(selection);
-            string bddName = BddNamer.ToUnderscoreName(selection.Text);
-            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
-            selection.Insert(
-                bddName,
-                vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd);
-            selection.Collapse();
+
+            // Rename the selection.
+            IOptions options = _getOptionsFunc();
+            RenameSelection(selection, options);
         }
     }
 }

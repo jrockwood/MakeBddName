@@ -55,6 +55,12 @@ namespace MakeBddName
             return vsSelection != null ? new VsTextSelectionWrapper(vsSelection) : null;
         }
 
+        internal IOptions GetOptionsPage()
+        {
+            var page = (OptionsPage)GetDialogPage(typeof(OptionsPage));
+            return page;
+        }
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so
         /// this is the place where you can put all the initialization code that rely on services
@@ -69,7 +75,7 @@ namespace MakeBddName
             _dte = GetService(typeof(DTE)) as DTE2;
 
             // Initialize the commands.
-            MakeBddNameCommand.Initialize(menuCommandService, GetActiveSelection);
+            MakeBddNameCommand.Initialize(menuCommandService, GetActiveSelection, GetOptionsPage);
 
             Logger.LogDebug("Initialized");
         }

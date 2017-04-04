@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="BddNamerTests.cs" />
     <Compile Include="MakeBddNameCommandTests.cs" />
+    <Compile Include="MockOptions.cs" />
     <Compile Include="MockTextSelection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

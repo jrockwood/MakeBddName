@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="BddNamer.cs" />
     <Compile Include="BddNameStyle.cs" />
+    <Compile Include="IOptions.cs" />
     <Compile Include="ITextSelection.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MakeBddNameCommand.cs" />
