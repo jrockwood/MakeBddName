@@ -129,9 +129,9 @@ namespace MakeBddName
             underscoreLowerCaseLabel.Location = new System.Drawing.Point(46, 45);
             underscoreLowerCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
             underscoreLowerCaseLabel.Name = "underscoreLowerCaseLabel";
-            underscoreLowerCaseLabel.Size = new System.Drawing.Size(293, 13);
+            underscoreLowerCaseLabel.Size = new System.Drawing.Size(295, 13);
             underscoreLowerCaseLabel.TabIndex = 3;
-            underscoreLowerCaseLabel.Text = "Example: \"should Do something\" --> \"should_do_something\"";
+            underscoreLowerCaseLabel.Text = "Example: \"should Do something\" --> \"should_Do_something\"";
             // 
             // OptionsPageControl
             // 
