@@ -39,7 +39,7 @@ namespace MakeBddName
             OnOptionsPagePropertyChanges(options, null);
 
             // Update the bound options whenever the checkboxes change.
-            _underscoresLowerCaseRadioButton.CheckedChanged += OnCheckedChanged;
+            _underscoresPreserveCaseRadioButton.CheckedChanged += OnCheckedChanged;
             _underscoresSentenceCaseRadioButton.CheckedChanged += OnCheckedChanged;
             _pascalCaseRadioButton.CheckedChanged += OnCheckedChanged;
 
@@ -52,7 +52,7 @@ namespace MakeBddName
             switch (Options.NamingStyle)
             {
                 case BddNameStyle.UnderscorePreserveCase:
-                    _underscoresLowerCaseRadioButton.Checked = true;
+                    _underscoresPreserveCaseRadioButton.Checked = true;
                     break;
 
                 case BddNameStyle.UnderscoreSentenceCase:
@@ -72,7 +72,7 @@ namespace MakeBddName
         {
             BddNameStyle namingStyle;
 
-            if (_underscoresLowerCaseRadioButton.Checked)
+            if (_underscoresPreserveCaseRadioButton.Checked)
             {
                 namingStyle = BddNameStyle.UnderscorePreserveCase;
             }
