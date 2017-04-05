@@ -192,6 +192,39 @@ namespace MakeBddNameTests
                     MakeBddNameCommand.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
                 }
+
+                [Test]
+                public void should_select_the_entire_underscore_delimited_word()
+                {
+                    var selection = new MockTextSelection("public void My_metho|d_name()");
+                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<My_method_name|>>()");
+                }
+            }
+        }
+
+        public class RenameSelection
+        {
+            public class Given_a_valid_selection
+            {
+                [Test]
+                public void should_replace_the_selection_and_put_the_cursor_at_the_end_of_the_word()
+                {
+                    var selection = new MockTextSelection("public void <<MethodName|>>()");
+                    var options = new MockOptions(BddNameStyle.UnderscorePreserveCase);
+                    MakeBddNameCommand.RenameSelection(selection, options);
+                    selection.LineSpec.Should().Be("public void Method_Name|()");
+
+                    selection = new MockTextSelection("public void <<MethodName|>>()");
+                    options = new MockOptions(BddNameStyle.UnderscoreSentenceCase);
+                    MakeBddNameCommand.RenameSelection(selection, options);
+                    selection.LineSpec.Should().Be("public void Method_name|()");
+
+                    selection = new MockTextSelection("public void <<MethodName|>>()");
+                    options = new MockOptions(BddNameStyle.PascalCase);
+                    MakeBddNameCommand.RenameSelection(selection, options);
+                    selection.LineSpec.Should().Be("public void MethodName|()");
+                }
             }
         }
     }

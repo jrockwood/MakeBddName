@@ -73,9 +73,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BddNamer.cs" />
+    <Compile Include="BddNameStyle.cs" />
+    <Compile Include="IOptions.cs" />
     <Compile Include="ITextSelection.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MakeBddNameCommand.cs" />
+    <Compile Include="OptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OptionsPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptionsPageControl.Designer.cs">
+      <DependentUpon>OptionsPageControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source.extension.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
@@ -119,6 +130,9 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="OptionsPageControl.resx">
+      <DependentUpon>OptionsPageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="source.extension.resx">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
