@@ -51,7 +51,7 @@ namespace MakeBddName
         {
             switch (Options.NamingStyle)
             {
-                case BddNameStyle.UnderscoreLowerCase:
+                case BddNameStyle.UnderscorePreserveCase:
                     _underscoresLowerCaseRadioButton.Checked = true;
                     break;
 
@@ -74,7 +74,7 @@ namespace MakeBddName
 
             if (_underscoresLowerCaseRadioButton.Checked)
             {
-                namingStyle = BddNameStyle.UnderscoreLowerCase;
+                namingStyle = BddNameStyle.UnderscorePreserveCase;
             }
             else if (_underscoresSentenceCaseRadioButton.Checked)
             {

@@ -80,7 +80,7 @@ namespace MakeBddName
             string bddName;
             switch (namingStyle)
             {
-                case BddNameStyle.UnderscoreLowerCase:
+                case BddNameStyle.UnderscorePreserveCase:
                     bddName = BddNamer.ToUnderscoreName(selection.Text, makeSentence: false);
                     break;
 

@@ -14,21 +14,21 @@ namespace MakeBddName
     public enum BddNameStyle
     {
         /// <summary>
-        /// Represents a sentence with underscores ('_') between words and where all of the words are
-        /// converted to lower case. For example, "should_do_something".
+        /// Represents a sentence with underscores ('_') between words and where the case of all
+        /// words is preserved. For example, "should Do something" => "should_Do_something".
         /// </summary>
-        UnderscoreLowerCase,
+        UnderscorePreserveCase,
 
         /// <summary>
         /// Represents a sentence with underscores ('_') between words and where all of the words
         /// except for the first word are converted to lower case and the first word is capitalized.
-        /// For example, "Should_do_something".
+        /// For example, "should Do something" => "Should_do_something".
         /// </summary>
         UnderscoreSentenceCase,
 
         /// <summary>
         /// Represents a sentence where each word is capitalized and concatenated together. For
-        /// example, "ShouldDoSomething".
+        /// example, "should Do something" => "ShouldDoSomething".
         /// </summary>
         PascalCase,
     }

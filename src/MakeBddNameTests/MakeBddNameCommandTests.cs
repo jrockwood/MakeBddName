@@ -211,7 +211,7 @@ namespace MakeBddNameTests
                 public void should_replace_the_selection_and_put_the_cursor_at_the_end_of_the_word()
                 {
                     var selection = new MockTextSelection("public void <<MethodName|>>()");
-                    var options = new MockOptions(BddNameStyle.UnderscoreLowerCase);
+                    var options = new MockOptions(BddNameStyle.UnderscorePreserveCase);
                     MakeBddNameCommand.RenameSelection(selection, options);
                     selection.LineSpec.Should().Be("public void Method_Name|()");
 

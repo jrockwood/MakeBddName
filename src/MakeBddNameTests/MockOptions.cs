@@ -12,7 +12,7 @@ namespace MakeBddNameTests
 
     public class MockOptions : IOptions
     {
-        public MockOptions(BddNameStyle namingStyle = BddNameStyle.UnderscoreLowerCase)
+        public MockOptions(BddNameStyle namingStyle = BddNameStyle.UnderscorePreserveCase)
         {
             NamingStyle = namingStyle;
         }
