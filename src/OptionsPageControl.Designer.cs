@@ -73,9 +73,9 @@ namespace MakeBddName
             pascalCaseLabel.Location = new System.Drawing.Point(46, 129);
             pascalCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
             pascalCaseLabel.Name = "pascalCaseLabel";
-            pascalCaseLabel.Size = new System.Drawing.Size(156, 13);
+            pascalCaseLabel.Size = new System.Drawing.Size(287, 13);
             pascalCaseLabel.TabIndex = 5;
-            pascalCaseLabel.Text = "Example: ShouldDoSomething()";
+            pascalCaseLabel.Text = "Example: \"should Do something\" --> \"ShouldDoSomething\"";
             // 
             // _pascalCaseRadioButton
             // 
@@ -107,9 +107,9 @@ namespace MakeBddName
             underscoresSentenceCaseLabel.Location = new System.Drawing.Point(46, 87);
             underscoresSentenceCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
             underscoresSentenceCaseLabel.Name = "underscoresSentenceCaseLabel";
-            underscoresSentenceCaseLabel.Size = new System.Drawing.Size(164, 13);
+            underscoresSentenceCaseLabel.Size = new System.Drawing.Size(295, 13);
             underscoresSentenceCaseLabel.TabIndex = 4;
-            underscoresSentenceCaseLabel.Text = "Example: Should_do_something()";
+            underscoresSentenceCaseLabel.Text = "Example: \"should Do something\" --> \"Should_do_something\"";
             // 
             // _underscoresLowerCaseRadioButton
             // 
@@ -117,10 +117,10 @@ namespace MakeBddName
             this._underscoresLowerCaseRadioButton.Location = new System.Drawing.Point(9, 22);
             this._underscoresLowerCaseRadioButton.Margin = new System.Windows.Forms.Padding(6);
             this._underscoresLowerCaseRadioButton.Name = "_underscoresLowerCaseRadioButton";
-            this._underscoresLowerCaseRadioButton.Size = new System.Drawing.Size(160, 17);
+            this._underscoresLowerCaseRadioButton.Size = new System.Drawing.Size(176, 17);
             this._underscoresLowerCaseRadioButton.TabIndex = 0;
             this._underscoresLowerCaseRadioButton.TabStop = true;
-            this._underscoresLowerCaseRadioButton.Text = "Underscores and lower case";
+            this._underscoresLowerCaseRadioButton.Text = "Underscores and preserve case";
             this._underscoresLowerCaseRadioButton.UseVisualStyleBackColor = true;
             // 
             // underscoreLowerCaseLabel
@@ -129,9 +129,9 @@ namespace MakeBddName
             underscoreLowerCaseLabel.Location = new System.Drawing.Point(46, 45);
             underscoreLowerCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
             underscoreLowerCaseLabel.Name = "underscoreLowerCaseLabel";
-            underscoreLowerCaseLabel.Size = new System.Drawing.Size(162, 13);
+            underscoreLowerCaseLabel.Size = new System.Drawing.Size(293, 13);
             underscoreLowerCaseLabel.TabIndex = 3;
-            underscoreLowerCaseLabel.Text = "Example: should_do_something()";
+            underscoreLowerCaseLabel.Text = "Example: \"should Do something\" --> \"should_do_something\"";
             // 
             // OptionsPageControl
             // 
