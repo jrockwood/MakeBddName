@@ -39,14 +39,14 @@ namespace MakeBddName
             System.Windows.Forms.GroupBox namingStyleGroupBox;
             System.Windows.Forms.Label pascalCaseLabel;
             System.Windows.Forms.Label underscoresSentenceCaseLabel;
-            System.Windows.Forms.Label underscoreLowerCaseLabel;
+            System.Windows.Forms.Label underscorePreserveCaseLabel;
             this._pascalCaseRadioButton = new System.Windows.Forms.RadioButton();
             this._underscoresSentenceCaseRadioButton = new System.Windows.Forms.RadioButton();
             this._underscoresPreserveCaseRadioButton = new System.Windows.Forms.RadioButton();
             namingStyleGroupBox = new System.Windows.Forms.GroupBox();
             pascalCaseLabel = new System.Windows.Forms.Label();
             underscoresSentenceCaseLabel = new System.Windows.Forms.Label();
-            underscoreLowerCaseLabel = new System.Windows.Forms.Label();
+            underscorePreserveCaseLabel = new System.Windows.Forms.Label();
             namingStyleGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +59,7 @@ namespace MakeBddName
             namingStyleGroupBox.Controls.Add(this._underscoresSentenceCaseRadioButton);
             namingStyleGroupBox.Controls.Add(underscoresSentenceCaseLabel);
             namingStyleGroupBox.Controls.Add(this._underscoresPreserveCaseRadioButton);
-            namingStyleGroupBox.Controls.Add(underscoreLowerCaseLabel);
+            namingStyleGroupBox.Controls.Add(underscorePreserveCaseLabel);
             namingStyleGroupBox.Location = new System.Drawing.Point(3, 3);
             namingStyleGroupBox.Name = "namingStyleGroupBox";
             namingStyleGroupBox.Size = new System.Drawing.Size(460, 158);
@@ -123,15 +123,15 @@ namespace MakeBddName
             this._underscoresPreserveCaseRadioButton.Text = "Underscores and preserve case";
             this._underscoresPreserveCaseRadioButton.UseVisualStyleBackColor = true;
             // 
-            // underscoreLowerCaseLabel
+            // underscorePreserveCaseLabel
             // 
-            underscoreLowerCaseLabel.AutoSize = true;
-            underscoreLowerCaseLabel.Location = new System.Drawing.Point(46, 45);
-            underscoreLowerCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
-            underscoreLowerCaseLabel.Name = "underscoreLowerCaseLabel";
-            underscoreLowerCaseLabel.Size = new System.Drawing.Size(293, 13);
-            underscoreLowerCaseLabel.TabIndex = 3;
-            underscoreLowerCaseLabel.Text = "Example: \"should Do something\" --> \"should_do_something\"";
+            underscorePreserveCaseLabel.AutoSize = true;
+            underscorePreserveCaseLabel.Location = new System.Drawing.Point(46, 45);
+            underscorePreserveCaseLabel.Margin = new System.Windows.Forms.Padding(43, 0, 3, 0);
+            underscorePreserveCaseLabel.Name = "underscorePreserveCaseLabel";
+            underscorePreserveCaseLabel.Size = new System.Drawing.Size(295, 13);
+            underscorePreserveCaseLabel.TabIndex = 3;
+            underscorePreserveCaseLabel.Text = "Example: \"should Do something\" --> \"should_Do_something\"";
             // 
             // OptionsPageControl
             // 

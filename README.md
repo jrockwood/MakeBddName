@@ -11,6 +11,9 @@ or get the
 
 Do you like to use a Jasmine/BDD style of naming your C#/VB test methods? Are
 you tired of typing an underscore between words? Then this extension is for you!
+Simply type your sentence in quotes using spaces, punctuation, or whatever else
+you want, then hit `Ctrl+', Ctrl+'` to convert the sentence to a C#-compatible
+method or class name.
 
 See the [changelog](CHANGELOG.md) for updates and roadmap.
 
@@ -25,16 +28,16 @@ hit `Ctrl+', Ctrl+'` or select "Make BDD Name" from the shortcut menu.
 Watch a video of the usage [here](art/demo.mp4).
 
 Specify what format you want your BDD sentences in from Tools/Options.
-* Underscores and lower case (`should_do_something`)
-* Underscores and sentence case (`Should_do_something`)
-* PascalCase (`ShouldDoSomething`)
+* Underscores and preserve case ("should Do something" --> `should_Do_something`)
+* Underscores and sentence case ("should Do something" --> `Should_do_something`)
+* PascalCase ("should Do something" --> `ShouldDoSomething`)
 
 ![Options Page](art/options.png)
 
 You can convert to and from existing names. For example, if you have an existing
 method named `ShouldDoSomething` and your options specify "Underscores and
-lower case", then invoking the command with your selection somewhere within the
-method name will convert the method to `should_do_something`.
+sentence case", then invoking the command with your selection somewhere within
+the method name will convert the method to `Should_do_something`.
 
 ## Prerequisites
 In order to use this extension you must have Visual Studio 2015 or Visual Studio
