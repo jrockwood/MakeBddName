@@ -69,11 +69,11 @@ namespace MakeBddName
 
         /// <summary>
         /// Replaces the selection with the user-specified BDD naming style. Assumes that there is a
-        /// valid selection ( <see cref="ExtendSelectionToFullString"/> has been called already).
+        /// valid selection ( <see cref="TextSelectionExtensions.ExtendSelectionToFullString"/> has
+        /// been called already).
         /// </summary>
         internal static void RenameSelection(ITextSelection selection, IOptions options)
         {
-            selection.ExtendSelectionToFullString();
             BddNameStyle namingStyle = options.NamingStyle;
 
             // Rename the selection
