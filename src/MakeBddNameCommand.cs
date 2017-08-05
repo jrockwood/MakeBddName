@@ -112,7 +112,7 @@ namespace MakeBddName
 
         private void OnMakeBddNameCommandClick(object sender, EventArgs e)
         {
-            Logger.Log($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
+            Logger.LogDebug($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
             // Select the appropriate word/sentence.
             ITextSelection selection = _getTextSelectionFunc();
