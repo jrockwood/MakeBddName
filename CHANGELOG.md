@@ -36,3 +36,11 @@ Visual Studio extension gallery.
 There is a new options page that lets you specify the default format.
 
 ![Options Page](art/options.png)
+
+## 1.3
+
+* Fix issue #1: selections of the form "foo bar baz" were not getting properly tranlsated. The
+  problem was that I was not properly caching the selection before changing it to check for quote
+  characters.
+* Fix issue #2: Turn off logging when not in debug mode. It was just a simple type-o where I used
+  `Logger.Log` instead of `Logger.LogDebug`.
