@@ -55,6 +55,14 @@ namespace MakeBddNameTests
                     TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<ShouldDoSomething|>>()");
                 }
+
+                [Test]
+                public void should_not_extend_if_the_selection_already_has_spaces_and_no_quotes()
+                {
+                    var selection = new MockTextSelection("public void <<foo bar baz|>>()");
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<foo bar baz|>>()");
+                }
             }
 
             public class Given_a_selection_at_the_beginning_of_the_line
@@ -227,6 +235,15 @@ namespace MakeBddNameTests
                     options = new MockOptions(BddNameStyle.PascalCase);
                     MakeBddNameCommand.RenameSelection(selection, options);
                     selection.LineSpec.Should().Be("public void MethodName|()");
+                }
+
+                [Test]
+                public void should_replace_an_existing_selection_with_spaces()
+                {
+                    var selection = new MockTextSelection("public void <<foo bar baz|>>");
+                    var options = new MockOptions(BddNameStyle.UnderscorePreserveCase);
+                    MakeBddNameCommand.RenameSelection(selection, options);
+                    selection.LineSpec.Should().Be("public void foo_bar_baz|");
                 }
             }
         }
