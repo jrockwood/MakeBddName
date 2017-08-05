@@ -11,10 +11,13 @@
 
 namespace MakeBddNameTests
 {
+    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using MakeBddName;
     using NUnit.Framework;
 
+    [SuppressMessage("ReSharper", "InvokeAsExtensionMethod",
+        Justification = "I want to be explicit that I'm testing an extension method.")]
     public static class MakeBddNameCommandTests
     {
         public class ExtendSelectionToFullString
@@ -25,7 +28,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_quotes_if_quotes_are_present()
                 {
                     var selection = new MockTextSelection("public void \"should <<do|>> something\"()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something\"|>>()");
                 }
 
@@ -33,7 +36,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_start_of_the_line_if_no_beginning_quote_but_there_is_an_end_quote()
                 {
                     var selection = new MockTextSelection("public void should <<do|>> something\"()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("<<public void should do something\"|>>()");
                 }
 
@@ -41,7 +44,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_end_of_the_line_if_no_end_quote_but_there_is_a_beginning_quote()
                 {
                     var selection = new MockTextSelection("public void \"should <<do|>> something()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something()|>>");
                 }
 
@@ -49,8 +52,16 @@ namespace MakeBddNameTests
                 public void should_only_extend_to_the_whole_word_if_there_are_no_quotes()
                 {
                     var selection = new MockTextSelection("public void Should<<Do|>>Something()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<ShouldDoSomething|>>()");
+                }
+
+                [Test]
+                public void should_not_extend_if_the_selection_already_has_spaces_and_no_quotes()
+                {
+                    var selection = new MockTextSelection("public void <<foo bar baz|>>()");
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
+                    selection.LineSpec.Should().Be("public void <<foo bar baz|>>()");
                 }
             }
 
@@ -60,7 +71,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_quotes_if_quotes_are_present()
                 {
                     var selection = new MockTextSelection("<<|\"should do>> something\"()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("<<\"should do something\"|>>()");
                 }
 
@@ -68,7 +79,7 @@ namespace MakeBddNameTests
                 public void should_only_extend_to_the_word_boundary_if_there_are_no_quotes()
                 {
                     var selection = new MockTextSelection("<<|NoQuo>>tes but spaces");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("<<NoQuotes|>> but spaces");
                 }
             }
@@ -79,7 +90,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_quotes_if_quotes_are_present()
                 {
                     var selection = new MockTextSelection("\"should <<do something\"|>>");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("<<\"should do something\"|>>");
                 }
 
@@ -87,7 +98,7 @@ namespace MakeBddNameTests
                 public void should_only_extend_to_the_word_boundary_if_there_are_no_quotes()
                 {
                     var selection = new MockTextSelection("NoQuotes but spa<<ces|>>");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("NoQuotes but <<spaces|>>");
                 }
             }
@@ -98,7 +109,7 @@ namespace MakeBddNameTests
                 public void should_not_select_more_words()
                 {
                     var selection = new MockTextSelection("public void <<PascalCaseMethodName|>>()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<PascalCaseMethodName|>>()");
                 }
 
@@ -106,7 +117,7 @@ namespace MakeBddNameTests
                 public void should_move_the_active_point_to_the_end_of_the_word()
                 {
                     var selection = new MockTextSelection("public void <<|PascalCaseMethodName>>()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<PascalCaseMethodName|>>()");
                 }
             }
@@ -117,7 +128,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_quotes_if_present()
                 {
                     var selection = new MockTextSelection("public void \"should do| something\"()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something\"|>>()");
                 }
 
@@ -125,7 +136,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_start_of_the_line_if_no_beginning_quote_but_an_ending_quote()
                 {
                     var selection = new MockTextSelection("public void should do| something\"()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("<<public void should do something\"|>>()");
                 }
 
@@ -133,7 +144,7 @@ namespace MakeBddNameTests
                 public void should_extend_to_the_end_of_the_line_if_no_end_quote_but_beginning_quote()
                 {
                     var selection = new MockTextSelection("public void \"should do| something()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something()|>>");
                 }
 
@@ -141,7 +152,7 @@ namespace MakeBddNameTests
                 public void should_detect_the_beginning_quote_with_the_anchor_at_the_end_of_the_line()
                 {
                     var selection = new MockTextSelection("public void \"should do something\"|");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something\"|>>");
                 }
 
@@ -149,7 +160,7 @@ namespace MakeBddNameTests
                 public void should_detect_the_beginning_quote_with_the_anchor_after_the_closing_quote()
                 {
                     var selection = new MockTextSelection("public void \"should do something\"|()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<\"should do something\"|>>()");
                 }
 
@@ -157,7 +168,7 @@ namespace MakeBddNameTests
                 public void should_select_the_current_word_if_there_are_no_quotes()
                 {
                     var selection = new MockTextSelection("public void MyMetho|dName()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
                 }
 
@@ -165,7 +176,7 @@ namespace MakeBddNameTests
                 public void should_recognize_numbers_as_part_of_the_word()
                 {
                     var selection = new MockTextSelection("public void My|Method2 ()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethod2|>> ()");
                 }
 
@@ -173,7 +184,7 @@ namespace MakeBddNameTests
                 public void should_recognize_a_generic_signature()
                 {
                     var selection = new MockTextSelection("public void GenericMethod|<T>");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<GenericMethod|>><T>");
                 }
 
@@ -181,7 +192,7 @@ namespace MakeBddNameTests
                 public void should_select_the_current_word_if_the_selection_is_at_the_beginning_of_the_word()
                 {
                     var selection = new MockTextSelection("public void |MyMethodName()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
                 }
 
@@ -189,7 +200,7 @@ namespace MakeBddNameTests
                 public void should_select_the_current_word_if_the_selection_is_at_the_end_of_the_word()
                 {
                     var selection = new MockTextSelection("public void MyMethodName|()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<MyMethodName|>>()");
                 }
 
@@ -197,7 +208,7 @@ namespace MakeBddNameTests
                 public void should_select_the_entire_underscore_delimited_word()
                 {
                     var selection = new MockTextSelection("public void My_metho|d_name()");
-                    MakeBddNameCommand.ExtendSelectionToFullString(selection);
+                    TextSelectionExtensions.ExtendSelectionToFullString(selection);
                     selection.LineSpec.Should().Be("public void <<My_method_name|>>()");
                 }
             }
@@ -224,6 +235,15 @@ namespace MakeBddNameTests
                     options = new MockOptions(BddNameStyle.PascalCase);
                     MakeBddNameCommand.RenameSelection(selection, options);
                     selection.LineSpec.Should().Be("public void MethodName|()");
+                }
+
+                [Test]
+                public void should_replace_an_existing_selection_with_spaces()
+                {
+                    var selection = new MockTextSelection("public void <<foo bar baz|>>");
+                    var options = new MockOptions(BddNameStyle.UnderscorePreserveCase);
+                    MakeBddNameCommand.RenameSelection(selection, options);
+                    selection.LineSpec.Should().Be("public void foo_bar_baz|");
                 }
             }
         }
