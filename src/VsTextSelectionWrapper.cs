@@ -63,7 +63,8 @@ namespace MakeBddName
             // We can't just cache _selection.ActivePoint because it's not immutable and changes
             // according to the current active point. Instead, we'll cache the individual point's
             // properties in immutable variables so that we can restore them later.
-            int oldAbsoluteCharOffset = _selection.ActivePoint.AbsoluteCharOffset;
+            int oldAnchorPoint = _selection.AnchorPoint.AbsoluteCharOffset;
+            int oldActivePoint = _selection.ActivePoint.AbsoluteCharOffset;
 
             try
             {
@@ -71,7 +72,9 @@ namespace MakeBddName
             }
             finally
             {
-                _selection.MoveToAbsoluteOffset(oldAbsoluteCharOffset, Extend: false);
+                // First select the anchor point, then extend the selection to the active point.
+                _selection.MoveToAbsoluteOffset(oldAnchorPoint, Extend: false);
+                _selection.MoveToAbsoluteOffset(oldActivePoint, Extend: true);
             }
         }
 
