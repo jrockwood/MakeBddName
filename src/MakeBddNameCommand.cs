@@ -109,8 +109,10 @@ namespace MakeBddName
         /// <param name="selection">The selection to examine and modify.</param>
         internal static void ExtendSelectionToFullString(ITextSelection selection)
         {
-            bool lookingForQuotes = LineHasQuotes(selection);
+            bool lookingForQuotes = selection.LineHasQuotes();
+            // ReSharper disable ImplicitlyCapturedClosure
             Func<char, bool> isSelectionEndChar = c => lookingForQuotes ? c == '"' : !char.IsLetterOrDigit(c) && c != '_';
+            // ReSharper restore ImplicitlyCapturedClosure
 
             Action adjustSelection = () =>
             {
@@ -201,18 +203,6 @@ namespace MakeBddName
             }
 
             adjustSelection();
-        }
-
-        private static bool LineHasQuotes(ITextSelection selection)
-        {
-            string line = string.Empty;
-            selection.PerformActionAndRestoreSelection(() =>
-            {
-                selection.SelectLine();
-                line = selection.Text;
-            });
-
-            return line.Contains("\"");
         }
 
         private void RegisterCommand(IMenuCommandService menuCommandService)
