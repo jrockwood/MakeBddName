@@ -17,15 +17,13 @@ Features that have a checkmark are complete and available for download in the
 These are the changes to each version that have been released on the official
 Visual Studio extension gallery.
 
-### 1.0
+### 1.3
 
-- Initial release
-- Convert a string into a BDD name with underscores
-
-### 1.1
-
-- Visual Studio 2017 compatibility
-- Fixed the preview image and icon for the package so they show up in the gallery correctly
+- Fix issue #1: selections of the form "foo bar baz" were not getting properly tranlsated. The
+  problem was that I was not properly caching the selection before changing it to check for quote
+  characters.
+- Fix issue #2: Turn off logging when not in debug mode. It was just a simple type-o where I used
+  `Logger.Log` instead of `Logger.LogDebug`.
 
 ### 1.2
 
@@ -40,10 +38,12 @@ There is a new options page that lets you specify the default format.
 
 ![Options Page](art/options.png)
 
-### 1.3
+### 1.1
 
-- Fix issue #1: selections of the form "foo bar baz" were not getting properly tranlsated. The
-  problem was that I was not properly caching the selection before changing it to check for quote
-  characters.
-- Fix issue #2: Turn off logging when not in debug mode. It was just a simple type-o where I used
-  `Logger.Log` instead of `Logger.LogDebug`.
+- Visual Studio 2017 compatibility
+- Fixed the preview image and icon for the package so they show up in the gallery correctly
+
+### 1.0
+
+- Initial release
+- Convert a string into a BDD name with underscores
