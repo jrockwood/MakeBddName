@@ -1,4 +1,4 @@
-﻿# Make BDD Name
+# Make BDD Name
 
 [![Build status](https://ci.appveyor.com/api/projects/status/uc2k1h13o26xn0om?svg=true)](https://ci.appveyor.com/project/jrockwood/makebddname)
 
@@ -7,7 +7,7 @@ Download the extension at the
 or get the
 [nightly build](http://vsixgallery.com/extension/3ad8ab11-a54c-4f40-8926-d25d05ac7ec6/)
 
---------------------------------------------------------------------------------
+---
 
 Do you like to use a Jasmine/BDD style of naming your C#/VB test methods? Are
 you tired of typing an underscore between words? Then this extension is for you!
@@ -28,9 +28,10 @@ hit `Ctrl+', Ctrl+'` or select "Make BDD Name" from the shortcut menu.
 Watch a video of the usage [here](art/demo.mp4).
 
 Specify what format you want your BDD sentences in from Tools/Options.
-* Underscores and preserve case ("should Do something" --> `should_Do_something`)
-* Underscores and sentence case ("should Do something" --> `Should_do_something`)
-* PascalCase ("should Do something" --> `ShouldDoSomething`)
+
+- Underscores and preserve case ("should Do something" --> `should_Do_something`)
+- Underscores and sentence case ("should Do something" --> `Should_do_something`)
+- PascalCase ("should Do something" --> `ShouldDoSomething`)
 
 ![Options Page](art/options.png)
 
@@ -44,6 +45,7 @@ In order to use this extension you must have Visual Studio 2015 or Visual Studio
 2017 installed.
 
 ## Contribute
+
 Check out the [contribution guidelines](.github/CONTRIBUTING.md) if you want to
 contribute to this project.
 
@@ -52,4 +54,5 @@ For cloning and building this project yourself, make sure to install the
 extension for Visual Studio which enables some features used by this project.
 
 ## License
+
 [Apache 2.0](LICENSE)
