@@ -34,13 +34,9 @@ namespace MakeBddName
             Func<ITextSelection> getTextSelectionFunc,
             Func<IOptions> getOptionsFunc)
         {
-            if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
-            if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
-            if (getOptionsFunc == null) { throw new ArgumentNullException(nameof(getOptionsFunc)); }
-
-            RegisterCommand(menuCommandService);
-            _getTextSelectionFunc = getTextSelectionFunc;
-            _getOptionsFunc = getOptionsFunc;
+            RegisterCommand(menuCommandService ?? throw new ArgumentNullException(nameof(menuCommandService)));
+            _getTextSelectionFunc = getTextSelectionFunc ?? throw new ArgumentNullException(nameof(getTextSelectionFunc));
+            _getOptionsFunc = getOptionsFunc ?? throw new ArgumentNullException(nameof(getOptionsFunc));
         }
 
         //// ===========================================================================================================
@@ -70,7 +66,7 @@ namespace MakeBddName
 
         /// <summary>
         /// Replaces the selection with the user-specified BDD naming style. Assumes that there is a
-        /// valid selection ( <see cref="TextSelectionExtensions.ExtendSelectionToFullString"/> has
+        /// valid selection (<see cref="TextSelectionExtensions.ExtendSelectionToFullString"/> has
         /// been called already).
         /// </summary>
         internal static void RenameSelection(ITextSelection selection, IOptions options)
@@ -97,7 +93,6 @@ namespace MakeBddName
                     throw new ArgumentOutOfRangeException();
             }
 
-            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             selection.Insert(
                 bddName,
                 vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd);
