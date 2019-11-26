@@ -74,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MakeBddName.csproj">
+    <ProjectReference Include="..\MakeBddName\MakeBddName.csproj">
       <Project>{85ad9489-1503-4806-999a-9c27949619a3}</Project>
       <Name>MakeBddName</Name>
     </ProjectReference>

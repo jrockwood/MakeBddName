@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{EEC8A7EF-48B
 		art\options.png = art\options.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddName", "src\MakeBddName.csproj", "{85AD9489-1503-4806-999A-9C27949619A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddName", "src\MakeBddName\MakeBddName.csproj", "{85AD9489-1503-4806-999A-9C27949619A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddNameTests", "src\MakeBddNameTests\MakeBddNameTests.csproj", "{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}"
 EndProject
