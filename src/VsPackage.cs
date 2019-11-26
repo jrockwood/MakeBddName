@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="VsPackage.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -8,12 +8,17 @@
 
 namespace MakeBddName
 {
+    using System;
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
+    using System.Threading;
     using EnvDTE;
     using EnvDTE80;
+    using Microsoft;
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using Task = System.Threading.Tasks.Task;
 
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
@@ -34,9 +39,10 @@ namespace MakeBddName
         objectNameResourceID: 107,
         isToolsOptionPage: true,
         DescriptionResourceID = 108)]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
-         Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class VsPackage : Package
+    [SuppressMessage(
+        "StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+        Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    public sealed class VsPackage : AsyncPackage
     {
         //// ===========================================================================================================
         //// Member Variables
@@ -50,6 +56,7 @@ namespace MakeBddName
 
         internal ITextSelection GetActiveSelection()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var document = _dte.ActiveDocument?.Object("TextDocument") as TextDocument;
             TextSelection vsSelection = document?.Selection;
             return vsSelection != null ? new VsTextSelectionWrapper(vsSelection) : null;
@@ -66,13 +73,24 @@ namespace MakeBddName
         /// this is the place where you can put all the initialization code that rely on services
         /// provided by VisualStudio.
         /// </summary>
-        protected override void Initialize()
+        protected override async Task InitializeAsync(
+            CancellationToken cancellationToken,
+            IProgress<ServiceProgressData> progress)
         {
-            Logger.Initialize(this, Vsix.Name);
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            var outputWindowService = (IVsOutputWindow)await GetServiceAsync(typeof(SVsOutputWindow));
+            Logger.Initialize(outputWindowService, Vsix.Name);
 
             // Get the required services.
-            var menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            _dte = GetService(typeof(DTE)) as DTE2;
+            var menuCommandService = await GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            _dte = await GetServiceAsync(typeof(DTE)) as DTE2;
+            Assumes.Present(_dte);
 
             // Initialize the commands.
             MakeBddNameCommand.Initialize(menuCommandService, GetActiveSelection, GetOptionsPage);

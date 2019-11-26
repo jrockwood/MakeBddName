@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="MakeBddNameCommand.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -11,6 +11,7 @@ namespace MakeBddName
     using System;
     using System.ComponentModel.Design;
     using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
 
     /// <summary>
     /// Represents the "Make BDD Name" menu command.
@@ -112,6 +113,8 @@ namespace MakeBddName
 
         private void OnMakeBddNameCommandClick(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             Logger.LogDebug($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
             // Select the appropriate word/sentence.
