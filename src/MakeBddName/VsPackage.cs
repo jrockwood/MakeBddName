@@ -22,7 +22,7 @@ namespace MakeBddName
 
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
-    [Guid(PackageGuids.guidPackageString)]
+    [Guid(PackageGuids.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(
         typeof(OptionsPage),

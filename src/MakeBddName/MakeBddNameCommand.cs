@@ -101,7 +101,7 @@ namespace MakeBddName
 
         private void RegisterCommand(IMenuCommandService menuCommandService)
         {
-            var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
+            var menuCommandId = new CommandID(PackageGuids.MakeBddNameCmdSetGuid, PackageIds.MakeBddNameCommandId);
             var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
             menuCommandService.AddCommand(menuItem);
         }
