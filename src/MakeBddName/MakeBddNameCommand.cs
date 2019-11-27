@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="MakeBddNameCommand.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -11,6 +11,9 @@ namespace MakeBddName
     using System;
     using System.ComponentModel.Design;
     using EnvDTE;
+    using Microsoft;
+    using Microsoft.VisualStudio.Shell;
+    using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// Represents the "Make BDD Name" menu command.
@@ -33,13 +36,9 @@ namespace MakeBddName
             Func<ITextSelection> getTextSelectionFunc,
             Func<IOptions> getOptionsFunc)
         {
-            if (menuCommandService == null) { throw new ArgumentNullException(nameof(menuCommandService)); }
-            if (getTextSelectionFunc == null) { throw new ArgumentNullException(nameof(getTextSelectionFunc)); }
-            if (getOptionsFunc == null) { throw new ArgumentNullException(nameof(getOptionsFunc)); }
-
-            RegisterCommand(menuCommandService);
-            _getTextSelectionFunc = getTextSelectionFunc;
-            _getOptionsFunc = getOptionsFunc;
+            RegisterCommand(menuCommandService ?? throw new ArgumentNullException(nameof(menuCommandService)));
+            _getTextSelectionFunc = getTextSelectionFunc ?? throw new ArgumentNullException(nameof(getTextSelectionFunc));
+            _getOptionsFunc = getOptionsFunc ?? throw new ArgumentNullException(nameof(getOptionsFunc));
         }
 
         //// ===========================================================================================================
@@ -59,17 +58,23 @@ namespace MakeBddName
         /// Initializes the singleton instance of the command by registering the command with the
         /// Visual Studio environment.
         /// </summary>
-        public static void Initialize(
-            IMenuCommandService menuCommandService,
+        public static async Task InitializeAsync(
+            AsyncPackage package,
             Func<ITextSelection> getTextSelectionFunc,
             Func<IOptions> getOptionsFunc)
         {
+            // Switch to the main thread - the call to AddCommand in MakeBddNameCommand's constructor requires
+            // the UI thread.
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+
+            var menuCommandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            Assumes.Present(menuCommandService);
             Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc, getOptionsFunc);
         }
 
         /// <summary>
         /// Replaces the selection with the user-specified BDD naming style. Assumes that there is a
-        /// valid selection ( <see cref="TextSelectionExtensions.ExtendSelectionToFullString"/> has
+        /// valid selection (<see cref="TextSelectionExtensions.ExtendSelectionToFullString"/> has
         /// been called already).
         /// </summary>
         internal static void RenameSelection(ITextSelection selection, IOptions options)
@@ -96,7 +101,6 @@ namespace MakeBddName
                     throw new ArgumentOutOfRangeException();
             }
 
-            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             selection.Insert(
                 bddName,
                 vsInsertFlags.vsInsertFlagsContainNewText | vsInsertFlags.vsInsertFlagsCollapseToEnd);
@@ -105,13 +109,15 @@ namespace MakeBddName
 
         private void RegisterCommand(IMenuCommandService menuCommandService)
         {
-            var menuCommandId = new CommandID(PackageGuids.guidMakeBddNameCmdSet, PackageIds.cmdMakeBddName);
+            var menuCommandId = new CommandID(PackageGuids.MakeBddNameCmdSetGuid, PackageIds.MakeBddNameCommandId);
             var menuItem = new MenuCommand(OnMakeBddNameCommandClick, menuCommandId);
             menuCommandService.AddCommand(menuItem);
         }
 
         private void OnMakeBddNameCommandClick(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             Logger.LogDebug($"Inside {GetType().FullName}.{nameof(OnMakeBddNameCommandClick)}");
 
             // Select the appropriate word/sentence.

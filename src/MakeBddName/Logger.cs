@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="Logger.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -10,28 +10,34 @@ namespace MakeBddName
 {
     using System;
     using System.Diagnostics;
+    using Microsoft;
+    using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
     internal static class Logger
     {
         private static IVsOutputWindowPane s_pane;
-        private static IServiceProvider s_provider;
+        private static IVsOutputWindow s_outputWindowService;
         private static string s_name;
 
-        public static void Initialize(IServiceProvider provider, string name)
+        public static void Initialize(IVsOutputWindow outputWindowService, string name)
         {
-            s_provider = provider;
+            Assumes.Present(outputWindowService);
+            s_outputWindowService = outputWindowService;
             s_name = name;
         }
 
         [Conditional("DEBUG")]
         public static void LogDebug(string message)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             Log(message);
         }
 
         public static void Log(string message)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (string.IsNullOrEmpty(message))
             {
                 return;
@@ -52,6 +58,8 @@ namespace MakeBddName
 
         public static void Log(Exception ex)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (ex != null)
             {
                 Log(ex.ToString());
@@ -60,10 +68,12 @@ namespace MakeBddName
 
         private static bool EnsurePane()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (s_pane == null)
             {
                 var guid = Guid.NewGuid();
-                var output = (IVsOutputWindow)s_provider.GetService(typeof(SVsOutputWindow));
+                IVsOutputWindow output = s_outputWindowService;
                 output.CreatePane(ref guid, s_name, fInitVisible: 1, fClearWithSolution: 1);
                 output.GetPane(ref guid, out s_pane);
             }

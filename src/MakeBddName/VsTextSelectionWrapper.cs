@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="VsTextSelectionWrapper.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -10,6 +10,7 @@ namespace MakeBddName
 {
     using System;
     using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
 
     /// <summary>
     /// Implements <see cref="ITextSelection"/> by wrapping a Visual Studio <see cref="TextSelection"/>.
@@ -40,26 +41,83 @@ namespace MakeBddName
         //// Properties
         //// ===========================================================================================================
 
-        public bool ActivePointAtEndOfLine => _selection.ActivePoint.AtEndOfLine;
-        public bool ActivePointAtStartOfLine => _selection.ActivePoint.AtStartOfLine;
-        public bool IsActiveEndGreater => _selection.IsActiveEndGreater;
-        public bool IsEmpty => _selection.IsEmpty;
-        public string Text => _selection.Text;
+        public bool ActivePointAtEndOfLine
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return _selection.ActivePoint.AtEndOfLine;
+            }
+        }
+
+        public bool ActivePointAtStartOfLine
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return _selection.ActivePoint.AtStartOfLine;
+            }
+        }
+
+        public bool IsActiveEndGreater
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return _selection.IsActiveEndGreater;
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return _selection.IsEmpty;
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return _selection.Text;
+            }
+        }
 
         //// ===========================================================================================================
         //// Methods
         //// ===========================================================================================================
 
-        public void CharLeft(bool extend = false, int count = 1) => _selection.CharLeft(extend, count);
+        public void CharLeft(bool extend = false, int count = 1)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.CharLeft(extend, count);
+        }
 
-        public void CharRight(bool extend = false, int count = 1) => _selection.CharRight(extend, count);
+        public void CharRight(bool extend = false, int count = 1)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.CharRight(extend, count);
+        }
 
-        public void Collapse() => _selection.Collapse();
+        public void Collapse()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.Collapse();
+        }
 
-        public void Insert(string text, vsInsertFlags insertFlags) => _selection.Insert(text, (int)insertFlags);
+        public void Insert(string text, vsInsertFlags insertFlags)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.Insert(text, (int)insertFlags);
+        }
 
         public void PerformActionAndRestoreSelection(Action action)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             // We can't just cache _selection.ActivePoint because it's not immutable and changes
             // according to the current active point. Instead, we'll cache the individual point's
             // properties in immutable variables so that we can restore them later.
@@ -78,8 +136,16 @@ namespace MakeBddName
             }
         }
 
-        public void SelectLine() => _selection.SelectLine();
+        public void SelectLine()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.SelectLine();
+        }
 
-        public void SwapAnchor() => _selection.SwapAnchor();
+        public void SwapAnchor()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _selection.SwapAnchor();
+        }
     }
 }

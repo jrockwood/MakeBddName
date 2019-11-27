@@ -1,24 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A67EA8C-9C7B-4922-B3AD-562C1D951BA6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{97CF8B5A-C882-42A8-8886-5201932EAD16}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		CHANGELOG.md = CHANGELOG.md
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{45F21044-BE67-42F9-B1E3-9144E6393A9E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FE185AEB-513F-44B4-B1B0-A6302033B1BD}"
 	ProjectSection(SolutionItems) = preProject
 		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
 		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{EEC8A7EF-48B6-48C8-BDBF-BD643B36D82B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{DD1930D2-83A6-4BF0-B5CA-F0A888F685E6}"
 	ProjectSection(SolutionItems) = preProject
 		art\aftercommand.png = art\aftercommand.png
 		art\demo.mp4 = art\demo.mp4
@@ -26,9 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{EEC8A7EF-48B
 		art\options.png = art\options.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddName", "src\MakeBddName.csproj", "{85AD9489-1503-4806-999A-9C27949619A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddName", "src\MakeBddName\MakeBddName.csproj", "{DAAEBC3C-52A3-4CC0-9948-16662FA0BDDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddNameTests", "src\MakeBddNameTests\MakeBddNameTests.csproj", "{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeBddNameTests", "src\MakeBddNameTests\MakeBddNameTests.csproj", "{2BB3AB2A-27C1-4B3A-90E1-C7E2007680E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,16 +38,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{85AD9489-1503-4806-999A-9C27949619A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85AD9489-1503-4806-999A-9C27949619A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85AD9489-1503-4806-999A-9C27949619A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85AD9489-1503-4806-999A-9C27949619A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38FB2F13-0FA5-4CDC-B58F-8580C7CA78DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAAEBC3C-52A3-4CC0-9948-16662FA0BDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAAEBC3C-52A3-4CC0-9948-16662FA0BDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAAEBC3C-52A3-4CC0-9948-16662FA0BDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAAEBC3C-52A3-4CC0-9948-16662FA0BDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB3AB2A-27C1-4B3A-90E1-C7E2007680E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB3AB2A-27C1-4B3A-90E1-C7E2007680E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB3AB2A-27C1-4B3A-90E1-C7E2007680E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB3AB2A-27C1-4B3A-90E1-C7E2007680E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEC5DBF5-176A-4DEA-AFF7-105F538CE203}
 	EndGlobalSection
 EndGlobal

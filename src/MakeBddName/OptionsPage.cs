@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="OptionsPage.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -29,7 +29,7 @@ namespace MakeBddName
         [DefaultValue(DefaultNamingStyle)]
         public BddNameStyle NamingStyle
         {
-            get { return _namingStyle; }
+            get => _namingStyle;
             set
             {
                 if (_namingStyle != value)
