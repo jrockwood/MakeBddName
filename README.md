@@ -41,8 +41,8 @@ sentence case", then invoking the command with your selection somewhere within
 the method name will convert the method to `Should_do_something`.
 
 ## Prerequisites
-In order to use this extension you must have Visual Studio 2015 or Visual Studio
-2017 installed.
+
+In order to use this extension you must have Visual Studio 2017 or Visual Studio 2019 installed.
 
 ## Contribute
 
