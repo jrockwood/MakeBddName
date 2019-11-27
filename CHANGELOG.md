@@ -17,6 +17,11 @@ Features that have a checkmark are complete and available for download in the
 These are the changes to each version that have been released on the official
 Visual Studio extension gallery.
 
+### 1.4
+
+- Add support for Visual Studio 2019. In the process, I dropped support for Visual Studio 2015.
+  Visual Studio 2017 still works properly.
+
 ### 1.3
 
 - Fix issue #1: selections of the form "foo bar baz" were not getting properly tranlsated. The
