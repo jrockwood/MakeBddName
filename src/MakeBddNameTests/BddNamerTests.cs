@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // <copyright file="BddNamerTests.cs" company="Justin Rockwood">
 //   Copyright (c) Justin Rockwood. All rights reserved. Licensed under the Apache License, Version 2.0.
 //   See LICENSE in the project root for license information.
@@ -23,7 +23,7 @@ namespace MakeBddNameTests
             public void should_throw_on_invalid_args()
             {
                 Action action = () => BddNamer.ToUnderscoreName(null);
-                action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("sentence");
+                action.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("sentence");
             }
 
             [Test]
@@ -109,7 +109,7 @@ namespace MakeBddNameTests
             public void should_throw_on_invalid_args()
             {
                 Action action = () => BddNamer.ToPascalCase(null);
-                action.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("sentence");
+                action.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("sentence");
             }
 
             [Test]
