@@ -11,7 +11,9 @@ namespace MakeBddName
     using System;
     using System.ComponentModel.Design;
     using EnvDTE;
+    using Microsoft;
     using Microsoft.VisualStudio.Shell;
+    using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// Represents the "Make BDD Name" menu command.
@@ -56,11 +58,17 @@ namespace MakeBddName
         /// Initializes the singleton instance of the command by registering the command with the
         /// Visual Studio environment.
         /// </summary>
-        public static void Initialize(
-            IMenuCommandService menuCommandService,
+        public static async Task InitializeAsync(
+            AsyncPackage package,
             Func<ITextSelection> getTextSelectionFunc,
             Func<IOptions> getOptionsFunc)
         {
+            // Switch to the main thread - the call to AddCommand in MakeBddNameCommand's constructor requires
+            // the UI thread.
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+
+            var menuCommandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            Assumes.Present(menuCommandService);
             Instance = new MakeBddNameCommand(menuCommandService, getTextSelectionFunc, getOptionsFunc);
         }
 
